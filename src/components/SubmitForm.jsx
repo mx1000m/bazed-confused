@@ -3,7 +3,7 @@ import { SignInButton, useSignIn } from '@farcaster/auth-kit';
 import './SubmitForm.css';
 
 export default function SubmitForm({ onClose }) {
-  const { user } = useSignIn(); // ← only need user
+  const { isAuthenticated, user } = useSignIn();
   const [fields, setFields] = useState({
     term: '',
     category: '',
@@ -31,8 +31,8 @@ export default function SubmitForm({ onClose }) {
   const handleSubmit = async () => {
     if (!validate()) return;
 
-    if (!user?.username) {
-      alert('Please sign in with Farcaster!');
+    if (!isAuthenticated || !user?.username) {
+      alert('Please sign in with Farcaster first!');
       return;
     }
 
@@ -106,7 +106,7 @@ export default function SubmitForm({ onClose }) {
           onChange={handleChange}
         />
 
-        {!user?.username ? (
+        {!isAuthenticated ? (
           <SignInButton />
         ) : (
           <p style={{ marginBottom: '1rem' }}>Connected as @{user.username}</p>
