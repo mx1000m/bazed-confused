@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { SignInButton, useSignIn } from '@farcaster/auth-kit';
+import { SignInButton, useSignIn, useViewer } from '@farcaster/auth-kit';
 import './SubmitForm.css';
-import { useViewer } from '@farcaster/auth-kit';
-
 
 export default function SubmitForm({ onClose }) {
-  const { isAuthenticated, user } = useSignIn();
+  const { isAuthenticated } = useSignIn();
+  const { viewer } = useViewer();
+
   const [fields, setFields] = useState({
     term: '',
     category: '',
@@ -33,20 +33,10 @@ export default function SubmitForm({ onClose }) {
   const handleSubmit = async () => {
     if (!validate()) return;
 
-    if (!isAuthenticated || !user?.username) {
+    if (!isAuthenticated || !viewer?.username) {
       alert('Please sign in with Farcaster first!');
       return;
     }
-
-    const newEntry = {
-      [fields.term.toLowerCase()]: {
-        category: fields.category,
-        definition: fields.definition,
-        explanation: fields.explanation,
-        examples: fields.examples.split('\n').map(line => line.trim()).filter(line => line),
-        submitted_by: `@${user.username}`
-      }
-    };
 
     try {
       const response = await fetch('/.netlify/functions/submitTerm', {
@@ -58,12 +48,12 @@ export default function SubmitForm({ onClose }) {
           definition: fields.definition,
           explanation: fields.explanation,
           examples: fields.examples.split('\n').map(line => line.trim()).filter(line => line),
-          submitted_by: `@${user.username}`
+          submitted_by: `@${viewer.username}`
         })
       });
-    
+
       const result = await response.json();
-    
+
       if (response.ok) {
         alert('✅ Term successfully submitted!');
         onClose();
@@ -75,7 +65,6 @@ export default function SubmitForm({ onClose }) {
       console.error(err);
       alert('❌ Network or server error occurred.');
     }
-    
   };
 
   return (
@@ -119,10 +108,10 @@ export default function SubmitForm({ onClose }) {
           onChange={handleChange}
         />
 
-        {!isAuthenticated ? (
+        {!isAuthenticated || !viewer?.username ? (
           <SignInButton />
         ) : (
-          <p style={{ marginBottom: '1rem' }}>Connected as @{user.username}</p>
+          <p style={{ marginBottom: '1rem' }}>Connected as @{viewer.username}</p>
         )}
 
         <button className="submit-term-btn" onClick={handleSubmit}>
