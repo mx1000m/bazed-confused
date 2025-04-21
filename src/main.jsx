@@ -12,6 +12,7 @@ const config = {
   siweUri: import.meta.env.VITE_SIWE_URI,
 };
 
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthKitProvider config={config}>

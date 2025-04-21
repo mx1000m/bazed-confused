@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { SignInButton, useSignIn } from '@farcaster/auth-kit';
+import { SignInButton, useProfile } from '@farcaster/auth-kit';
 import './SubmitForm.css';
 
 export default function SubmitForm({ onClose }) {
-  const { isAuthenticated, user } = useSignIn();
+  const { isAuthenticated, profile } = useProfile();
   const [fields, setFields] = useState({
     term: '',
     category: '',
@@ -31,7 +31,7 @@ export default function SubmitForm({ onClose }) {
   const handleSubmit = async () => {
     if (!validate()) return;
 
-    if (!isAuthenticated || !user?.username) {
+    if (!isAuthenticated || !profile?.username) {
       alert('Please sign in with Farcaster first!');
       return;
     }
@@ -46,7 +46,7 @@ export default function SubmitForm({ onClose }) {
           definition: fields.definition,
           explanation: fields.explanation,
           examples: fields.examples.split('\n').map(line => line.trim()).filter(line => line),
-          submitted_by: `@${user.username}`
+          submitted_by: `@${profile.username}`
         })
       });
 
@@ -109,7 +109,7 @@ export default function SubmitForm({ onClose }) {
         {!isAuthenticated ? (
           <SignInButton />
         ) : (
-          <p style={{ marginBottom: '1rem' }}>Connected as @{user.username}</p>
+          <p style={{ marginBottom: '1rem' }}>Connected as @{profile.username}</p>
         )}
 
         <button className="submit-term-btn" onClick={handleSubmit}>
