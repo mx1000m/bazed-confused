@@ -30,25 +30,28 @@ export default function SubmitForm({ onClose }) {
   };
 
   const handleSubmit = async () => {
-    if (!validate()) return;
-
+    // 🔒 Double check sign-in before submit
     if (!isAuthenticated || !user?.username) {
       alert('Please sign in with Farcaster first!');
       return;
     }
 
+    if (!validate()) return;
+
+    const payload = {
+      term: fields.term,
+      category: fields.category,
+      definition: fields.definition,
+      explanation: fields.explanation,
+      examples: fields.examples.split('\n').map(line => line.trim()).filter(line => line),
+      submitted_by: `@${user.username}`
+    };
+
     try {
       const response = await fetch('/.netlify/functions/submitTerm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          term: fields.term,
-          category: fields.category,
-          definition: fields.definition,
-          explanation: fields.explanation,
-          examples: fields.examples.split('\n').map(line => line.trim()).filter(line => line),
-          submitted_by: `@${user.username}`
-        })
+        body: JSON.stringify(payload)
       });
 
       const result = await response.json();
@@ -110,7 +113,7 @@ export default function SubmitForm({ onClose }) {
         {!isAuthenticated ? (
           <SignInButton />
         ) : (
-          <p style={{ marginBottom: '1rem' }}>Connected as @{user.username}</p>
+          <p style={{ marginBottom: '1rem' }}>Connected as @{user?.username}</p>
         )}
 
         <button className="submit-term-btn" onClick={handleSubmit}>
