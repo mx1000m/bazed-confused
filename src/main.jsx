@@ -12,8 +12,8 @@ window.Buffer = Buffer;
 
 const config = {
   rpcUrl: 'https://mainnet.optimism.io',
-  domain: 'localhost',
-  siweUri: 'http://localhost:5173/login',
+  domain: import.meta.env.VITE_FARCASTER_DOMAIN,
+  siweUri: import.meta.env.VITE_SIWE_URI
 };
 
 ReactDOM.createRoot(document.getElementById('root')).render(
