@@ -3,50 +3,24 @@ const { Octokit } = require('@octokit/rest');
 require('dotenv').config();
 
 exports.handler = async (event) => {
-  // CORS Headers
-  const headers = {
-    'Access-Control-Allow-Origin': 'https://bazedandconfused.netlify.app',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS'
-  };
-  
-  // Handle preflight OPTIONS request
-  if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
-      headers,
-      body: ''
-    };
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  if (event.httpMethod !== 'POST') {
-    return { 
-      statusCode: 405, 
-      headers,
-      body: JSON.stringify({ error: 'Method Not Allowed' })
-    };
+  const { term, category, definition, explanation, examples, submitted_by } = JSON.parse(event.body);
+
+  if (!term || !category || !definition || !explanation || !examples || !submitted_by) {
+    return { statusCode: 400, body: 'Missing fields' };
   }
+
+  const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+
+  const owner = 'mx1000m'; // your GitHub username
+  const repo = 'bazed-confused'; // your repo name
+  const path = 'public/terms.json';
+  const message = `Add term: ${term}`;
 
   try {
-    const { term, category, definition, explanation, examples, submitted_by } = JSON.parse(event.body);
-
-    console.log("Received submission:", { term, category, submitted_by });
-
-    if (!term || !category || !definition || !explanation || !examples || !submitted_by) {
-      return { 
-        statusCode: 400, 
-        headers,
-        body: JSON.stringify({ error: 'Missing required fields' })
-      };
-    }
-
-    const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
-
-    const owner = 'mx1000m'; // your GitHub username
-    const repo = 'bazed-confused'; // your repo name
-    const path = 'public/terms.json';
-    const message = `Add term: ${term}`;
-
     // Get the current content of the terms.json file
     const { data: file } = await octokit.repos.getContent({
       owner,
@@ -80,16 +54,14 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
-      headers,
       body: JSON.stringify({ success: true }),
     };
   } catch (error) {
-    console.error('Error processing request:', error);
+    console.error('GitHub update error:', error);
     return {
       statusCode: 500,
-      headers,
       body: JSON.stringify({
-        error: 'Server error processing request',
+        error: 'GitHub update failed',
         details: error.message,
       }),
     };
