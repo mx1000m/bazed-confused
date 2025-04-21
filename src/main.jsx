@@ -6,6 +6,10 @@ import '@farcaster/auth-kit/styles.css';
 
 import { AuthKitProvider } from '@farcaster/auth-kit';
 
+import { Buffer } from 'buffer';
+window.Buffer = Buffer;
+
+
 const config = {
   rpcUrl: 'https://mainnet.optimism.io',
   domain: 'localhost',

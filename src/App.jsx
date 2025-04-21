@@ -5,6 +5,9 @@ import Button from './components/Button';
 import TermModal from './components/TermModal';
 import SearchBar from './components/SearchBar';
 import SubmitForm from './components/SubmitForm';
+import { Buffer } from 'buffer';
+window.Buffer = Buffer;
+
 
 
 export default function App() {
