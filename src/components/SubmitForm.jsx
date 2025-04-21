@@ -3,8 +3,7 @@ import { SignInButton, useSignIn } from '@farcaster/auth-kit';
 import './SubmitForm.css';
 
 export default function SubmitForm({ onClose }) {
-  const { isAuthenticated, user } = useSignIn();
-
+  const { user } = useSignIn(); // ← only need user
   const [fields, setFields] = useState({
     term: '',
     category: '',
@@ -30,28 +29,25 @@ export default function SubmitForm({ onClose }) {
   };
 
   const handleSubmit = async () => {
-    // 🔒 Double check sign-in before submit
-    if (!isAuthenticated || !user?.username) {
-      alert('Please sign in with Farcaster first!');
-      return;
-    }
-
     if (!validate()) return;
 
-    const payload = {
-      term: fields.term,
-      category: fields.category,
-      definition: fields.definition,
-      explanation: fields.explanation,
-      examples: fields.examples.split('\n').map(line => line.trim()).filter(line => line),
-      submitted_by: `@${user.username}`
-    };
+    if (!user?.username) {
+      alert('Please sign in with Farcaster!');
+      return;
+    }
 
     try {
       const response = await fetch('/.netlify/functions/submitTerm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+          term: fields.term,
+          category: fields.category,
+          definition: fields.definition,
+          explanation: fields.explanation,
+          examples: fields.examples.split('\n').map(line => line.trim()).filter(line => line),
+          submitted_by: `@${user.username}`
+        })
       });
 
       const result = await response.json();
@@ -110,10 +106,10 @@ export default function SubmitForm({ onClose }) {
           onChange={handleChange}
         />
 
-        {!isAuthenticated ? (
+        {!user?.username ? (
           <SignInButton />
         ) : (
-          <p style={{ marginBottom: '1rem' }}>Connected as @{user?.username}</p>
+          <p style={{ marginBottom: '1rem' }}>Connected as @{user.username}</p>
         )}
 
         <button className="submit-term-btn" onClick={handleSubmit}>
