@@ -15,13 +15,13 @@ exports.handler = async (event) => {
 
   const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
-  const owner = 'mx1000m'; // 👈 your GitHub username
-  const repo = 'bazed-confused'; // 👈 your repo name
+  const owner = 'mx1000m'; // your GitHub username
+  const repo = 'bazed-confused'; // your repo name
   const path = 'public/terms.json';
   const message = `Add term: ${term}`;
 
   try {
-    // Fetch the existing file
+    // Get the current content of the terms.json file
     const { data: file } = await octokit.repos.getContent({
       owner,
       repo,
@@ -31,7 +31,7 @@ exports.handler = async (event) => {
     const content = Buffer.from(file.content, 'base64').toString('utf-8');
     const terms = JSON.parse(content);
 
-    // Add the new term
+    // Add new term
     terms[term.toLowerCase()] = {
       category,
       definition,
@@ -42,7 +42,7 @@ exports.handler = async (event) => {
 
     const updatedContent = Buffer.from(JSON.stringify(terms, null, 2)).toString('base64');
 
-    // Commit updated file
+    // Commit the update
     await octokit.repos.createOrUpdateFileContents({
       owner,
       repo,
@@ -60,7 +60,10 @@ exports.handler = async (event) => {
     console.error('GitHub update error:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'GitHub update failed', details: error.message }),
+      body: JSON.stringify({
+        error: 'GitHub update failed',
+        details: error.message,
+      }),
     };
   }
 };

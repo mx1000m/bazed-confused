@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { SignInButton, useSignIn } from '@farcaster/auth-kit';
 import './SubmitForm.css';
+import { useViewer } from '@farcaster/auth-kit';
+
 
 export default function SubmitForm({ onClose }) {
   const { isAuthenticated, user } = useSignIn();
@@ -46,9 +48,34 @@ export default function SubmitForm({ onClose }) {
       }
     };
 
-    console.log('Submit this entry to your backend logic:', newEntry);
-    alert('✅ Term ready to be submitted. (You’ll need GitHub API logic to write it to terms.json)');
-    onClose();
+    try {
+      const response = await fetch('/.netlify/functions/submitTerm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          term: fields.term,
+          category: fields.category,
+          definition: fields.definition,
+          explanation: fields.explanation,
+          examples: fields.examples.split('\n').map(line => line.trim()).filter(line => line),
+          submitted_by: `@${user.username}`
+        })
+      });
+    
+      const result = await response.json();
+    
+      if (response.ok) {
+        alert('✅ Term successfully submitted!');
+        onClose();
+      } else {
+        console.error(result);
+        alert(`❌ Submission failed: ${result.error || 'Unknown error'}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('❌ Network or server error occurred.');
+    }
+    
   };
 
   return (
