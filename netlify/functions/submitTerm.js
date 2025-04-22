@@ -1,8 +1,7 @@
 // netlify/functions/submitTerm.js
-const { Octokit } = require('@octokit/rest');
-require('dotenv').config(); // Optional if running locally
+import { Octokit } from '@octokit/rest';
 
-exports.handler = async (event) => {
+export async function handler(event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
@@ -13,28 +12,18 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: 'Missing fields' };
   }
 
-  // ✅ Initialize Octokit with your GitHub token
-  const octokit = new Octokit({
-    auth: process.env.GITHUB_TOKEN,
-  });
+  const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
-  const owner = 'mx1000m'; // your GitHub username
-  const repo = 'bazed-confused'; // your repo name
+  const owner = 'mx1000m';
+  const repo = 'bazed-confused';
   const path = 'public/terms.json';
   const message = `Add term: ${term}`;
 
   try {
-    // 🗂️ Get current contents of terms.json
-    const { data: file } = await octokit.repos.getContent({
-      owner,
-      repo,
-      path,
-    });
-
+    const { data: file } = await octokit.repos.getContent({ owner, repo, path });
     const content = Buffer.from(file.content, 'base64').toString('utf-8');
     const terms = JSON.parse(content);
 
-    // ✍️ Add the new term
     terms[term.toLowerCase()] = {
       category,
       definition,
@@ -45,7 +34,6 @@ exports.handler = async (event) => {
 
     const updatedContent = Buffer.from(JSON.stringify(terms, null, 2)).toString('base64');
 
-    // ✅ Push updated terms.json to GitHub
     await octokit.repos.createOrUpdateFileContents({
       owner,
       repo,
@@ -69,4 +57,4 @@ exports.handler = async (event) => {
       }),
     };
   }
-};
+}
