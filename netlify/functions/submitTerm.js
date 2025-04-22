@@ -1,10 +1,14 @@
-// netlify/functions/submitTerm.js
-import { Octokit } from '@octokit/rest';
+const { Octokit } = require('@octokit/rest');
 
-export async function handler(event) {
+exports.handler = async function(event) {
+
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
+
+
+
+
 
   const { term, category, definition, explanation, examples, submitted_by } = JSON.parse(event.body);
 
