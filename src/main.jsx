@@ -13,13 +13,18 @@ const config = {
 };
 
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <AuthKitProvider config={config}>
-      <App />
-    </AuthKitProvider>
-  </React.StrictMode>
-);
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(
+    <React.StrictMode>
+      <AuthKitProvider config={config}>
+        <App />
+      </AuthKitProvider>
+    </React.StrictMode>
+  );
+} else {
+  console.error("Root element not found!");
+}
 
 
 

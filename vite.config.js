@@ -1,27 +1,26 @@
-// vite.config.js
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  optimizeDeps: {
-    esbuildOptions: {
-      define: {
-        global: 'globalThis'
-      },
-      plugins: [
-        NodeGlobalsPolyfillPlugin({
-          buffer: true,
-          process: true,
-        })
-      ]
+  resolve: {
+    alias: {
+      // This helps with the Buffer polyfill
+      'buffer': 'buffer'
     }
   },
-  build: {
-    rollupOptions: {
-      // Optional if you want even better polyfill support during build
-      plugins: []
+  define: {
+    // This ensures Buffer is available in the browser
+    'global': {},
+    'process.env': {}
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
+    esbuildOptions: {
+      // Node.js global to browser globalThis
+      define: {
+        global: 'globalThis'
+      }
     }
   }
-});
+})
