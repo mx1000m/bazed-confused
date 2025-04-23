@@ -24,11 +24,13 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background: linear-gradient(120deg, #006eff, #0038c7);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }
+
 
 h1 {
   font-size: 3.2em;
@@ -65,4 +67,12 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(120deg, #006eff, #0038c7);
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }

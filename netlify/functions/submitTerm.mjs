@@ -24,7 +24,17 @@ export async function handler(event) {
     const content = Buffer.from(file.content, 'base64').toString('utf-8');
     const terms = JSON.parse(content);
 
-    terms[term.toLowerCase()] = {
+    // ✅ Check for duplicate term
+    const termKey = term.toLowerCase();
+    if (terms[termKey]) {
+      return {
+        statusCode: 409,
+        body: JSON.stringify({ error: `The term "${term}" has already been submitted.` }),
+      };
+    }
+
+    // ✅ Add new term
+    terms[termKey] = {
       category,
       definition,
       explanation,

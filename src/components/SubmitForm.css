@@ -28,11 +28,27 @@
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #0052FF;
+    color: white;
     border: none;
-    font-size: 1.5rem;
+    font-size: 20px;
+    line-height: 1;
+    padding: 0;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease;
   }
+  
+  .close-btn:hover {
+    transform: scale(1.1);
+  }
+  
+  
   
   input, textarea {
     padding: 0.75rem;
@@ -60,7 +76,7 @@
   
   .submit-term-btn {
     padding: 0.75rem;
-    background: #006eff;
+    background: #0052FF;
     color: white;
     border: none;
     border-radius: 8px;

@@ -11,33 +11,60 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
       <div style={modal}>
         <button onClick={onClose} style={close}>✕</button>
         <h2>{termKey}</h2>
+        <hr style={{ margin: '1rem 0', border: 'none', borderTop: '1px solid #ddd' }} />
 
         <div>
-          <strong>Definition:</strong>
-          <p>{definition}</p>
+        <p style={{ marginBottom: '0.2rem' }}><strong>Definition:</strong></p>
+        <p style={{ marginTop: '0' }}>{termData.definition}</p>
         </div>
+        <hr style={{ margin: '1rem 0', border: 'none', borderTop: '1px solid #ddd' }} />
 
         <div>
-          <strong>Explanation:</strong>
-          <p>{explanation}</p>
+        <p style={{ marginBottom: '0.2rem' }}><strong>Explanation:</strong></p>
+        <p style={{ marginTop: '0' }}>{termData.explanation}</p>
+      
         </div>
+        <hr style={{ margin: '1rem 0', border: 'none', borderTop: '1px solid #ddd' }} />
 
         <div>
-          <strong>Examples:</strong>
+          <p style={{ marginBottom: '0rem' }}><strong>Examples:</strong></p>
           {examples.map((ex, i) => (
-            <p key={i} style={{ fontStyle: 'italic', color: '#0038c7', fontWeight: 500 }}>
-              {ex}
-            </p>
-          ))}
+  <p
+    key={i}
+    style={{
+      fontStyle: 'italic',
+      color: '#0038c7',
+      fontWeight: 500,
+      marginTop: i === 0 ? '0.5rem' : '0.25rem',
+      marginBottom: '0.25rem'
+    }}
+  >
+    {ex}
+  </p>
+))}
+
         </div>
+        <hr style={{ margin: '1rem 0', border: 'none', borderTop: '1px solid #ddd' }} />
+
 
         <div style={{ marginTop: '1rem', fontSize: '0.9rem' }}>
-          <em>Submitted by: {submitted_by}</em>
-        </div>
+  <em>
+    Submitted by:{' '}
+    <a
+      href={`https://warpcast.com/${submitted_by.replace('@', '')}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ color: '#0038c7', textDecoration: 'none' }}
+    >
+      {submitted_by}
+    </a>
+  </em>
+</div>
 
-        <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem' }}>
+
+        <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem', justifyContent: 'flex-end', }}>
+        <Button variant="secondary" onClick={onClose}>Close</Button>
           <Button variant="primary" onClick={onSurpriseAgain}>Surprise me again</Button>
-          <Button variant="secondary" onClick={onClose}>Close</Button>
         </div>
       </div>
     </div>

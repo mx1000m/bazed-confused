@@ -1,33 +1,56 @@
+/* src/components/Button.css */
 .custom-button {
+  padding: 0.75rem 1.5rem;
   font-size: 1rem;
   font-weight: 600;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: transform 0.1s ease, background-color 0.2s ease, border 0.2s ease;
-}
-
-/* Primary (blue background) */
-.custom-button.primary {
-  background-color: #0038c7;
-  color: white;
+  transition: all 0.3s ease;
   border: none;
+  font-family: 'Inter', sans-serif;
 }
 
-/* Secondary (outlined) */
+/* Primary = filled blue Surprise Me Again */
+.custom-button.primary {
+  background-color: #0052FF;
+  color: white;
+  border: 0px solid #ffffff;
+}
+
+.custom-button.primary:hover {
+  background-color: #002fa1;
+}
+
+/* Secondary = filled white CLOSE */
 .custom-button.secondary {
+  background-color: white;
+  color: #0052ff;
+  border: 2px solid #0052FF;
+}
+
+.custom-button.secondary:hover {
+  color: #0038c7;
+  border: 2px solid #0038c7;
+}
+
+/* Outline white = transparent + white border and white text */
+.custom-button.outline-white {
   background-color: transparent;
   color: white;
   border: 2px solid white;
 }
 
-/* Hover state */
-.custom-button:hover {
-  transform: scale(1.03);
-  filter: brightness(1.1);
+.custom-button.outline-white:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Click state */
+
+/* Zoom for all buttons */
+.custom-button:hover {
+  transform: scale(1.02);
+}
+
 .custom-button:active {
-  transform: scale(0.96);
+  transform: scale(0.99);
+  transition: transform 0.1s ease;
 }

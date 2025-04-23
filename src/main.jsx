@@ -4,6 +4,8 @@ import App from './App.jsx';
 import { AuthKitProvider } from '@farcaster/auth-kit';
 import '@farcaster/auth-kit/styles.css';
 import { Buffer } from 'buffer';
+import './index.css';
+
 window.Buffer = Buffer;
 
 const config = {
