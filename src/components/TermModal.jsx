@@ -9,7 +9,8 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
   return (
     <div style={overlay}>
       <div style={modal}>
-        <button onClick={onClose} style={close}>✕</button>
+      <Button onClick={onClose} variant="close-circle">✕</Button>
+
         <h2>{termKey}</h2>
         <hr style={{ margin: '1rem 0', border: 'none', borderTop: '1px solid #ddd' }} />
 
