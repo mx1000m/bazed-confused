@@ -11,7 +11,7 @@ export default function Footer({ onSubmitClick }) {
       color: 'white',
       fontFamily: 'Inter, sans-serif',
       fontSize: '0.8rem',
-      fontWeight: 500,
+      fontWeight: 700,
       zIndex: 1000
     }}>
       <div style={{

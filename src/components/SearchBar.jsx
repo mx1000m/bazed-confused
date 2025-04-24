@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-export default function SearchBar({ terms, onSelectTerm, onSubmit }) {
-  const [searchTerm, setSearchTerm] = useState('');
-
+export default function SearchBar({
+  terms,
+  searchTerm,
+  setSearchTerm,
+  onSelectTerm,
+  onSubmit,
+  shouldShake,
+  inputRef
+}) {
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -30,18 +36,21 @@ export default function SearchBar({ terms, onSelectTerm, onSubmit }) {
   return (
     <div style={{ position: 'relative', width: '300px' }}>
       <input
+        ref={inputRef}
         type="text"
         placeholder="Enter crypto term"
         value={searchTerm}
         onChange={handleChange}
         onKeyPress={handleKeyPress}
+        className={shouldShake ? 'shake' : ''}
         style={{
           padding: '0.75rem 1rem',
           borderRadius: '12px',
           border: 'none',
           width: '100%',
           fontSize: '1rem',
-          color: '#000'
+          color: '#000',
+          transition: 'transform 0.2s ease'
         }}
       />
 
@@ -53,36 +62,44 @@ export default function SearchBar({ terms, onSelectTerm, onSubmit }) {
           right: 0,
           backgroundColor: 'white',
           color: 'black',
-          borderRadius: '10px',
+          borderRadius: '12px',
           marginTop: '0.5rem',
           boxShadow: '0 2px 5px rgba(0,0,0,0.15)',
           zIndex: 10,
-          overflow: 'hidden'
+          overflow: 'hidden',
+          maxHeight: '10rem',
+          display: 'flex',
+          flexDirection: 'column'
         }}>
-          {filtered.length > 0 ? (
-            filtered.map(term => (
-              <div
-                key={term}
-                onClick={() => handleSelect(term)}
-                style={{
-                  padding: '0.75rem 1rem',
-                  borderBottom: '1px solid #eee',
-                  cursor: 'pointer',
-                  fontWeight: 'bold'
-                }}
-              >
-                {term.charAt(0).toUpperCase() + term.slice(1)}
+          <div style={{ overflowY: 'auto', maxHeight: '10rem' }}>
+            {filtered.length > 0 ? (
+              filtered.map(term => (
+                <div
+                  key={term}
+                  onClick={() => handleSelect(term)}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f2f5ff'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'white'}
+                  style={{
+                    padding: '0.75rem 1rem',
+                    borderBottom: '1px solid #eee',
+                    cursor: 'pointer',
+                    fontWeight: 'bold',
+                    transition: 'background-color 0.2s ease'
+                  }}
+                >
+                  {term.charAt(0).toUpperCase() + term.slice(1)}
+                </div>
+              ))
+            ) : (
+              <div style={{
+                padding: '0.75rem 1rem',
+                fontWeight: 'bold',
+                color: '#666'
+              }}>
+                No matching terms found.
               </div>
-            ))
-          ) : (
-            <div style={{
-              padding: '0.75rem 1rem',
-              fontWeight: 'bold',
-              color: '#666'
-            }}>
-              No matching terms found.
-            </div>
-          )}
+            )}
+          </div>
         </div>
       )}
     </div>

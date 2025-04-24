@@ -30,12 +30,12 @@ export default function SubmitForm({ onClose }) {
 
   const handleSubmit = async () => {
     if (!validate()) return;
-  
+
     if (!isAuthenticated || !profile?.username) {
       alert('Please sign in with Farcaster first!');
       return;
     }
-  
+
     try {
       const response = await fetch('/.netlify/functions/submitTerm', {
         method: 'POST',
@@ -49,9 +49,9 @@ export default function SubmitForm({ onClose }) {
           submitted_by: `@${profile.username}`
         })
       });
-  
+
       const result = await response.json();
-  
+
       if (response.ok) {
         alert('✅ Term successfully submitted!');
         onClose();
@@ -66,89 +66,62 @@ export default function SubmitForm({ onClose }) {
       alert('❌ Network or server error occurred.');
     }
   };
-  
 
   return (
     <div className="modal-overlay">
       <div className="submit-form">
         <button className="close-btn" onClick={onClose}>✕</button>
 
+        <p style={{ fontWeight: '700', fontSize: '1.3rem', marginBottom: '-1.5rem', marginTop: '-0.3rem' }}>
+          Share your knowledge!
+        </p>
+        <p style={{ fontWeight: '700', fontSize: '1rem', marginBottom: '-0rem' }}>
+          Fill the form, connect Farcaster, and <br />contribute with a crypto term.
+        </p>
 
-        <p style={{ fontWeight: '700', fontSize: '1.3rem', marginBottom: '-1.8rem' , marginTop: '-0.3rem' }}>
-        Share your knowledge!</p>
-        <p style={{ fontWeight: '700', fontSize: '1rem', marginBottom: '-0.8rem' }}>
-        Fill the form, connect Farcaster, and <br />contribute with a crypto term.</p>
+        {['term', 'category'].map((field) => (
+          <React.Fragment key={field}>
+            <p style={{ fontWeight: '700', fontSize: '1rem', marginBottom: '-0.7rem', textAlign: 'left' , marginTop: '-0rem' }}>
+              {field === 'term' ? 'Crypto term' : 'Category'}
+            </p>
+            <input
+              name={field}
+              placeholder={field === 'term' ? 'Enter crypto term' : 'e.g., Culture, DeFi, Persona...'}
+              className={errors[field] ? 'error shake' : ''}
+              value={fields[field]}
+              onChange={handleChange}
+            />
+          </React.Fragment>
+        ))}
 
+        {['definition', 'explanation', 'examples'].map((field) => (
+          <React.Fragment key={field}>
+            <p style={{ fontWeight: '700', fontSize: '1rem', marginBottom: '-0.7rem', textAlign: 'left' , marginTop: '-0rem' }}>
+              {field.charAt(0).toUpperCase() + field.slice(1)}
+            </p>
+            <textarea
+              name={field}
+              placeholder={
+                field === 'definition' ? 'What does it mean?' :
+                field === 'explanation' ? 'What does it do?' :
+                'Examples (one per line)'
+              }
+              className={`form-textarea ${errors[field] ? 'error shake' : ''}`}
+              value={fields[field]}
+              onChange={handleChange}
+            />
+          </React.Fragment>
+        ))}
 
-        <p style={{ fontWeight: '700', fontSize: '1rem', marginBottom: '-0.7rem', textAlign: 'left' }}>
-  Crypto term
-</p>
-
-
-        <input
-          name="term"
-          placeholder="Enter crypto term"
-          className={errors.term ? 'error shake' : ''}
-          value={fields.term}
-          onChange={handleChange}
-        />
-
-
-<p style={{ fontWeight: '700', fontSize: '1rem', marginBottom: '-0.7rem', textAlign: 'left' , marginTop: ' 0rem' }}>
-  Category
-</p>
-        <input
-          name="category"
-          placeholder="e.g., Culture, DeFi, Persona..."
-          className={errors.category ? 'error shake' : ''}
-          value={fields.category}
-          onChange={handleChange}
-        />
-
-<p style={{ fontWeight: '700', fontSize: '1rem', marginBottom: '-0.7rem', textAlign: 'left' , marginTop: ' 0rem' }}>
-  Definition
-</p>
-        <textarea
-          name="definition"
-          placeholder="What does it mean?"
-          className={errors.definition ? 'error shake' : ''}
-          value={fields.definition}
-          onChange={handleChange}
-        />
-
-
-<p style={{ fontWeight: '700', fontSize: '1rem', marginBottom: '-0.7rem', textAlign: 'left' , marginTop: ' 0rem' }}>
-  Explanation
-</p>
-        <textarea
-          name="explanation"
-          placeholder="What does it do?"
-          className={errors.explanation ? 'error shake' : ''}
-          value={fields.explanation}
-          onChange={handleChange}
-        />
-
-<p style={{ fontWeight: '700', fontSize: '1rem', marginBottom: '-0.7rem', textAlign: 'left' , marginTop: ' 0rem' }}>
-  Examples
-</p>
-        <textarea
-          name="examples"
-          placeholder="Examples (one per line)"
-          className={errors.examples ? 'error shake' : ''}
-          value={fields.examples}
-          onChange={handleChange}
-        />
-
-{!isAuthenticated ? (
-  <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' , marginTop: '0.5rem' }}>
-    <SignInButton />
-  </div>
-) : (
-  <p style={{ marginBottom: '1rem', textAlign: 'center' }}>
-    Connected as @{profile.username}
-  </p>
-)}
-
+        {!isAuthenticated ? (
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem', marginTop: '0.5rem' }}>
+            <SignInButton />
+          </div>
+        ) : (
+          <p style={{ marginBottom: '1rem', textAlign: 'center' }}>
+            Connected as @{profile.username}
+          </p>
+        )}
 
         <button className="submit-term-btn" onClick={handleSubmit}>
           Submit Term

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SignInButton } from '@farcaster/auth-kit';
 import '@farcaster/auth-kit/styles.css';
 import Button from './components/Button';
@@ -10,8 +10,6 @@ import { useProfile } from '@farcaster/auth-kit';
 import { Buffer } from 'buffer';
 window.Buffer = Buffer;
 
-
-
 export default function App() {
   const { isAuthenticated, profile } = useProfile();
 
@@ -20,6 +18,10 @@ export default function App() {
   const [randomTerm, setRandomTerm] = useState(null);
   const [randomKey, setRandomKey] = useState('');
   const [selectedTerm, setSelectedTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [shouldShake, setShouldShake] = useState(false);
+
+  const inputRef = useRef(null);
 
   useEffect(() => {
     fetch('/terms.json')
@@ -35,185 +37,98 @@ export default function App() {
     setRandomTerm(terms[random]);
   };
 
+  const openSearchTerm = () => {
+    const key = Object.keys(terms).find(term =>
+      term.toLowerCase() === searchTerm.trim().toLowerCase()
+    );
+    if (key) {
+      setSelectedTerm(key);
+      setRandomKey(key);
+      setRandomTerm(terms[key]);
+    } else {
+      setShouldShake(true);
+      setTimeout(() => setShouldShake(false), 500);
+    }
+  };
+
   return (
-    <>
     <div style={{
       fontFamily: 'Inter, sans-serif',
       background: 'linear-gradient(120deg, #006eff, #0038c7)',
       color: 'white',
       minHeight: '100vh',
       display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-      padding: '2rem'
+      flexDirection: 'column'
     }}>
-      <h1 style={{ fontSize: '3rem' , marginBottom: '0.5rem'}}>BAZED & CONFUSED</h1>
-      <p style={{ marginTop: '0rem', marginBottom: '3rem' , letterSpacing: '0.15px' }}>
-        Look up any crypto term, or hit <b>“Surprise me”</b> to explore new ones.
-      </p>
+      {/* Centered content block */}
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        padding: '2rem'
+      }}>
+        <h1 style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>BAZED & CONFUSED</h1>
+        <p style={{ marginTop: '0rem', marginBottom: '3rem', letterSpacing: '0.15px' }}>
+          Look up any crypto term, or hit <b>“Surprise me”</b> to explore new ones.
+        </p>
 
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '1rem',
+          marginBottom: '2rem',
+          maxWidth: '100%',
+        }}>
+          <div style={{ flexShrink: 1 }}>
+            <SearchBar
+              terms={terms}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              onSelectTerm={(term) => {
+                setSelectedTerm(term);
+                setRandomTerm(terms[term]);
+                setRandomKey(term);
+              }}
+              onSubmit={(term) => {
+                setSelectedTerm(term);
+                setRandomTerm(terms[term]);
+                setRandomKey(term);
+              }}
+              shouldShake={shouldShake}
+              inputRef={inputRef}
+            />
+          </div>
 
+          <div style={{ display: 'flex', gap: '1rem', flexShrink: 0, marginLeft: '2.1rem' }}>
+            <Button variant="outline-white" onClick={openSearchTerm}>
+              Get answer
+            </Button>
+            <Button variant="primary" onClick={showRandomTerm}>
+              Surprise me
+            </Button>
+          </div>
+        </div>
 
+        {isModalOpen && <SubmitForm onClose={() => setIsModalOpen(false)} />}
 
+        {randomTerm && (
+          <TermModal
+            termData={randomTerm}
+            termKey={randomKey}
+            onClose={() => setRandomTerm(null)}
+            onSurpriseAgain={showRandomTerm}
+            farcasterUser={profile?.username}
+          />
+        )}
+      </div>
 
-
-
-
-{/* Search bar and buttons */}
-<div
-  style={{
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '1rem',
-    marginBottom: '2rem',
-    maxWidth: '100%',
-  }}
->
-  <div style={{ flexShrink: 1 }}>
-    <SearchBar
-      terms={terms}
-      onSelectTerm={(term) => {
-        setSelectedTerm(term);
-        setRandomTerm(terms[term]);
-        setRandomKey(term);
-      }}
-      onSubmit={(term) => {
-        setSelectedTerm(term);
-        setRandomTerm(terms[term]);
-        setRandomKey(term);
-      }}
-    />
-  </div>
-
-  <div style={{ display: 'flex', gap: '1rem', flexShrink: 0, marginLeft: '2.1rem', }}>
-  <Button
-  variant="outline-white"
-  onClick={() => {
-    if (selectedTerm) {
-      setRandomTerm(terms[selectedTerm]);
-      setRandomKey(selectedTerm);
-    }
-  }}
->
-  Get answer
-</Button>
-
-    <Button variant="primary" onClick={showRandomTerm}>
-      Surprise me
-    </Button>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-      {/* Submit Modal */}
-      {isModalOpen && (
-  <SubmitForm onClose={() => setIsModalOpen(false)} />
-)}
-
-
-      {/* Modal to show random or searched term */}
-      {randomTerm && (
-  <TermModal
-    termData={randomTerm}
-    termKey={randomKey}
-    onClose={() => setRandomTerm(null)}
-    onSurpriseAgain={showRandomTerm}
-    farcasterUser={profile?.username}
-  />
-)}
-
+      {/* Footer always at the bottom */}
+      <Footer onSubmitClick={() => setIsModalOpen(true)} />
     </div>
-
-
-    <Footer onSubmitClick={() => setIsModalOpen(true)} />
-    </>
-
-
-
-
-
   );
 }
-
-// Styles
-const submitButtonStyle = {
-  padding: '1rem 2rem',
-  background: 'white',
-  color: '#0038c7',
-  borderRadius: '12px',
-  fontSize: '1rem',
-  fontWeight: 'bold',
-  cursor: 'pointer',
-  marginTop: '1rem',
-};
-
-const modalOverlayStyle = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: '100vw',
-  height: '100vh',
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  zIndex: 1000
-};
-
-const modalStyle = {
-  background: 'white',
-  color: 'black',
-  padding: '2rem',
-  borderRadius: '16px',
-  width: '400px',
-  maxWidth: '90%',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1rem',
-  position: 'relative'
-};
-
-const closeButtonStyle = {
-  position: 'absolute',
-  top: '1rem',
-  right: '1rem',
-  background: 'transparent',
-  border: 'none',
-  fontSize: '1.5rem',
-  cursor: 'pointer'
-};
-
-const inputStyle = {
-  padding: '0.75rem',
-  borderRadius: '8px',
-  border: '1px solid #ccc',
-  fontSize: '1rem'
-};
-
-const textareaStyle = {
-  ...inputStyle,
-  height: '80px'
-};
-
-const submitTermButtonStyle = {
-  padding: '0.75rem',
-  background: '#006eff',
-  color: 'white',
-  borderRadius: '8px',
-  border: 'none',
-  fontWeight: 'bold',
-  cursor: 'pointer'
-};
