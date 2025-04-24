@@ -9,10 +9,10 @@
     ],
     "submitted_by": "@mx1000"
   },
-  "zk-rollup": {
+  "zk-rollups": {
     "category": "Tech",
     "definition": "A type of Layer 2 scaling solution for Ethereum.",
-    "explanation": "ZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costs.",
+    "explanation": "ZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costs.ZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costsZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costs",
     "examples": [
       "'zkSync is a popular zk-rollup.'",
       "'ZK-rollups offer fast and secure transactions.'"

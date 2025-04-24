@@ -33,8 +33,21 @@ export default function SearchBar({
     term.toLowerCase().startsWith(searchTerm.toLowerCase())
   );
 
+
+
+
+  const clearSearch = () => {
+    setSearchTerm('');
+    if (inputRef && inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+
+
   return (
     <div style={{ position: 'relative', width: '300px' }}>
+      <div style={{ position: 'relative' }}>  {/* Add this wrapper div */}
       <input
         ref={inputRef}
         type="text"
@@ -53,6 +66,36 @@ export default function SearchBar({
           transition: 'transform 0.2s ease'
         }}
       />
+
+     {/* X button here */}
+     {searchTerm && (
+        <button
+          type="button"
+          onClick={clearSearch}
+          style={{
+            position: 'absolute',
+            right: '-25px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '5px',
+            color: 'rgba(0, 0, 0, 0.4)', // Light grey X
+            fontSize: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          aria-label="Clear search"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+      )}
+    </div>
+
 
       {searchTerm && (
         <div style={{

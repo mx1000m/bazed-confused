@@ -17,6 +17,33 @@
   border: 0px solid #ffffff;
 }
 
+/* Adding moving gradient effect for the primary "Surprise me" button */
+.custom-button.primary.surprise-me {
+  background: linear-gradient(-45deg,  #0038c7, #0e5bf7, #0038c7, #0046e0, #0d55e4, #0038c7);
+  background-size: 400% 400%;
+  animation: gradient-animation 4s ease infinite;
+  color: white;
+  border: 0px solid #ffffff;
+}
+
+.custom-button.primary.surprise-me:hover {
+  background-size: 200% 200%;
+  animation: gradient-animation 2s ease infinite;
+  filter: brightness(1.1);
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .custom-button.primary:hover {
   background-color: #002fa1;
 }

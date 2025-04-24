@@ -1,9 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SignInButton, useProfile } from '@farcaster/auth-kit';
 import './SubmitForm.css';
 
 export default function SubmitForm({ onClose }) {
   const { isAuthenticated, profile } = useProfile();
+  const [isMobile, setIsMobile] = useState(false);
+  const [fadeIn, setFadeIn] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Check on mount
+    checkMobile();
+    
+    // Check on resize
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    // For iOS Safari, we need a different approach
+    // We'll keep the body scrollable but prevent touch events
+    const preventTouchMove = (e) => {
+      // Only if the modal itself isn't scrolling
+      if (!e.target.closest('.submit-form')) {
+        e.preventDefault();
+      }
+    };
+    
+    document.addEventListener('touchmove', preventTouchMove, { passive: false });
+    
+    // Store the original body style
+    const originalOverflow = document.body.style.overflow;
+    
+    return () => {
+      document.removeEventListener('touchmove', preventTouchMove);
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
+  // Add fade-in effect on mount
+  useEffect(() => {
+    // Small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      setFadeIn(true);
+    }, 10);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   const [fields, setFields] = useState({
     term: '',
     category: '',
@@ -13,19 +63,44 @@ export default function SubmitForm({ onClose }) {
   });
 
   const [errors, setErrors] = useState({});
+  const [shakeKeys, setShakeKeys] = useState({});
 
   const handleChange = (e) => {
     setFields({ ...fields, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: false });
+    
+    // Clear error for this field when user is typing
+    if (errors[e.target.name]) {
+      const newErrors = {...errors};
+      delete newErrors[e.target.name];
+      setErrors(newErrors);
+    }
   };
 
   const validate = () => {
     const newErrors = {};
+    const newShakeKeys = {}; // Create new shake state to trigger animation
+    
     for (const key in fields) {
-      if (!fields[key].trim()) newErrors[key] = true;
+      if (!fields[key].trim()) {
+        newErrors[key] = true;
+        newShakeKeys[key] = Date.now(); // Use timestamp to ensure it's always different
+      }
     }
+    
     setErrors(newErrors);
+    setShakeKeys(newShakeKeys);
+    
     return Object.keys(newErrors).length === 0;
+  };
+
+  const handleClose = () => {
+    // Trigger fade out
+    setFadeIn(false);
+    
+    // Wait for fade out animation to complete before actually closing
+    setTimeout(() => {
+      onClose();
+    }, 200); // Match the CSS transition time
   };
 
   const handleSubmit = async () => {
@@ -45,7 +120,10 @@ export default function SubmitForm({ onClose }) {
           category: fields.category,
           definition: fields.definition,
           explanation: fields.explanation,
-          examples: fields.examples.split('\n').map(line => line.trim()).filter(line => line),
+          examples: fields.examples
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => line),
           submitted_by: `@${profile.username}`
         })
       });
@@ -54,7 +132,7 @@ export default function SubmitForm({ onClose }) {
 
       if (response.ok) {
         alert('✅ Term successfully submitted!');
-        onClose();
+        handleClose();
       } else if (response.status === 409) {
         alert(`⚠️ That term already exists: "${fields.term}". Try a different one!`);
       } else {
@@ -67,65 +145,94 @@ export default function SubmitForm({ onClose }) {
     }
   };
 
+  if (!isVisible) return null;
+
   return (
-    <div className="modal-overlay">
-      <div className="submit-form">
-        <button className="close-btn" onClick={onClose}>✕</button>
+    <div className={`modal-overlay ${isMobile ? 'mobile fullscreen' : ''} ${fadeIn ? 'fade-in' : ''}`}>
+      <div className="submit-form-container">
+        <div className={`submit-form ${fadeIn ? 'fade-in' : ''}`}>
+          <button className="close-btn" onClick={handleClose}>✕</button>
 
-        <p style={{ fontWeight: '700', fontSize: '1.3rem', marginBottom: '-1.5rem', marginTop: '-0.3rem' }}>
-          Share your knowledge!
-        </p>
-        <p style={{ fontWeight: '700', fontSize: '1rem', marginBottom: '-0rem' }}>
-          Fill the form, connect Farcaster, and <br />contribute with a crypto term.
-        </p>
-
-        {['term', 'category'].map((field) => (
-          <React.Fragment key={field}>
-            <p style={{ fontWeight: '700', fontSize: '1rem', marginBottom: '-0.7rem', textAlign: 'left' , marginTop: '-0rem' }}>
-              {field === 'term' ? 'Crypto term' : 'Category'}
-            </p>
-            <input
-              name={field}
-              placeholder={field === 'term' ? 'Enter crypto term' : 'e.g., Culture, DeFi, Persona...'}
-              className={errors[field] ? 'error shake' : ''}
-              value={fields[field]}
-              onChange={handleChange}
-            />
-          </React.Fragment>
-        ))}
-
-        {['definition', 'explanation', 'examples'].map((field) => (
-          <React.Fragment key={field}>
-            <p style={{ fontWeight: '700', fontSize: '1rem', marginBottom: '-0.7rem', textAlign: 'left' , marginTop: '-0rem' }}>
-              {field.charAt(0).toUpperCase() + field.slice(1)}
-            </p>
-            <textarea
-              name={field}
-              placeholder={
-                field === 'definition' ? 'What does it mean?' :
-                field === 'explanation' ? 'What does it do?' :
-                'Examples (one per line)'
-              }
-              className={`form-textarea ${errors[field] ? 'error shake' : ''}`}
-              value={fields[field]}
-              onChange={handleChange}
-            />
-          </React.Fragment>
-        ))}
-
-        {!isAuthenticated ? (
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem', marginTop: '0.5rem' }}>
-            <SignInButton />
-          </div>
-        ) : (
-          <p style={{ marginBottom: '1rem', textAlign: 'center' }}>
-            Connected as @{profile.username}
+          <h2 className="form-title">Share your knowledge!</h2>
+          <p className="form-subtitle">
+            Fill the form, connect Farcaster, and contribute with a crypto term.
           </p>
-        )}
 
-        <button className="submit-term-btn" onClick={handleSubmit}>
-          Submit Term
-        </button>
+          <div className="form-fields">
+            <div className="form-field">
+              <label>Crypto term</label>
+              <input
+                name="term"
+                placeholder="Enter crypto term"
+                className={errors.term ? 'error' : ''}
+                data-shake={shakeKeys.term || undefined}
+                value={fields.term}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-field">
+              <label>Category</label>
+              <input
+                name="category"
+                placeholder="e.g., Culture, DeFi, Persona..."
+                className={errors.category ? 'error' : ''}
+                data-shake={shakeKeys.category || undefined}
+                value={fields.category}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-field">
+              <label>Definition</label>
+              <input
+                name="definition"
+                placeholder="What does it mean?"
+                className={errors.definition ? 'error' : ''}
+                data-shake={shakeKeys.definition || undefined}
+                value={fields.definition}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-field">
+              <label>Explanation</label>
+              <input
+                name="explanation"
+                placeholder="What does it do?"
+                className={errors.explanation ? 'error' : ''}
+                data-shake={shakeKeys.explanation || undefined}
+                value={fields.explanation}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-field">
+              <label>Examples</label>
+              <textarea
+                name="examples"
+                placeholder="Examples (one per line)"
+                className={`examples-textarea ${errors.examples ? 'error' : ''}`}
+                data-shake={shakeKeys.examples || undefined}
+                value={fields.examples}
+                onChange={handleChange}
+                rows={3}
+              />
+            </div>
+          </div>
+
+          <div className="auth-section">
+            {!isAuthenticated ? (
+              <SignInButton />
+            ) : (
+              <p className="user-connected">Connected as @{profile.username}</p>
+            )}
+          </div>
+
+          <button className="submit-term-btn" onClick={handleSubmit}>
+            Submit Term
+          </button>
+        </div>
       </div>
     </div>
   );

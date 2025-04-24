@@ -7,29 +7,67 @@
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 1100; /* higher than footer */
-  overflow-y: auto;
-  padding: 1rem;
-  justify-content: center;
+  z-index: 1100;
+  overflow-y: auto; /* Allow vertical scrolling */
+  padding: 20px 10px; /* Default padding */
+  box-sizing: border-box;
+  /* Push the form towards the top and ensure minimum scrollable area */
+  min-height: calc(100% + 300px); /* Force scrollable area */
+  opacity: 0; /* Start transparent */
+  transition: opacity 0.2s ease; /* Quick fade for overlay */
+}
+
+.modal-overlay.fade-in {
+  opacity: 1;
+}
+
+/* Mobile-specific overlay */
+.modal-overlay.mobile {
   align-items: flex-start;
-  padding: 2rem;
+  padding-top: 20px;
 }
 
 /* === MODAL CONTAINER === */
+.submit-form-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 50px auto 300px auto; /* Top and bottom margins */
+  position: relative; /* Position relative for absolute positioning of children */
+}
+
 .submit-form {
   background: white;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 16px;
-  width: 450px;
-  max-width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
   position: relative;
-  color: black;         
-  overflow-y: auto;
+  color: black;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  overflow-y: auto; /* Add back scrolling within form */
+  max-height: 80vh; /* Shorter max height to ensure bottom space is visible */
+  opacity: 0; /* Start transparent */
+  transition: opacity 0.2s ease; /* Quick fade for form */
+}
+
+.submit-form.fade-in {
+  opacity: 1;
+}
+
+/* Scrollbar styling for desktop */
+.submit-form::-webkit-scrollbar {
+  width: 6px;
+}
+.submit-form::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+.submit-form::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 /* === CLOSE BUTTON === */
@@ -37,13 +75,13 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background-color: #0052FF;
   color: white;
   border: none;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1;
   padding: 0;
   cursor: pointer;
@@ -57,34 +95,81 @@
   transform: scale(1.1);
 }
 
-/* === FORM FIELDS === */
-/* Consistent style for all inputs and textareas */
+/* === FORM TITLE AND SUBTITLE === */
+.form-title {
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin: 0 0 0.25rem 0;
+  text-align: center;
+}
+
+.form-subtitle {
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin: 0 0 0.5rem 0;
+  text-align: center;
+}
+
+/* === FORM FIELDS CONTAINER === */
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* === INDIVIDUAL FORM FIELD === */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-field label {
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+/* === INPUT STYLING === */
 .submit-form input,
-.form-textarea {
-  height: 48px; /* 👈 match input field height */
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
+.examples-textarea {
+  height: 40px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
   font-family: 'Inter', sans-serif;
   border-radius: 12px;
   border: 1px solid #ccc;
   box-sizing: border-box;
   color: #000;
-  resize: none;
+  width: 100%;
 }
 
+/* Special styling for examples field */
+.examples-textarea {
+  height: auto;
+  min-height: 60px;
+  resize: vertical;
+}
 
-.submit-form textarea {
-  height: 50px; /* consistent height */
-  resize: none; /* prevent user resizing */
-  color: #000;
+/* === AUTH SECTION === */
+.auth-section {
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.user-connected {
+  margin: 0;
+  font-size: 0.9rem;
+  text-align: center;
 }
 
 /* === ERROR + SHAKE === */
 .error {
-  border-color: red;
+  border: 1px solid red !important;
 }
 
-.shake {
+[data-shake] {
   animation: shake 0.3s ease-in-out;
 }
 
@@ -106,18 +191,122 @@
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
+  margin-top: 0.25rem;
+  font-size: 1rem;
 }
 
-/* Consistent style for all textareas */
-.form-textarea {
-  height: 80px;
-  resize: none;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  font-size: 1rem;
-  color: #000;
-  font-family: 'Inter', sans-serif;
-  width: 100%;
-  box-sizing: border-box;
+/* Create a spacer element after the form */
+.submit-form::after {
+  content: '';
+  display: block;
+  height: 50px; /* Additional internal spacing at the bottom */
+}
+
+/* ===== MOBILE SPECIFIC STYLES ===== */
+@media (max-width: 768px) {
+  .modal-overlay {
+    min-height: calc(100% + 350px); /* Larger scrollable area on mobile */
+  }
+  
+  .submit-form-container {
+    margin: 30px auto 300px auto; /* Less top margin on mobile */
+  }
+  
+  .submit-form {
+    padding: 1.5rem 1.25rem 1.25rem;
+    border-radius: 12px;
+    max-height: 80vh;
+  }
+  
+  /* Mobile scrollbar styles */
+  .submit-form::-webkit-scrollbar {
+    width: 4px; /* Smaller scrollbar for mobile */
+  }
+  
+  .form-title {
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+  }
+  
+  .form-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .form-field {
+    margin-bottom: 0.25rem;
+  }
+  
+  /* Make input fields slightly taller on mobile for better touch targets */
+  .submit-form input {
+    height: 42px;
+    font-size: 1rem;
+  }
+  
+  /* Make button more prominent */
+  .submit-term-btn {
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* Full screen on mobile */
+@media (max-width: 768px) {
+  .modal-overlay.mobile.fullscreen {
+    padding: 0;
+    display: block;
+    overflow-y: auto; /* Allow scrolling on the overlay */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: 100%; /* Reset the min-height */
+  }
+  
+  .modal-overlay.mobile.fullscreen .submit-form-container {
+    margin: 0;
+    min-height: 100%;
+    max-width: none;
+  }
+  
+  .modal-overlay.mobile.fullscreen .submit-form {
+    width: 100%;
+    min-height: 100%;
+    max-height: none; /* Remove max-height restriction */
+    border-radius: 0;
+    overflow-y: visible; /* Make sure content is visible */
+    padding-bottom: 100px; /* Add extra padding at bottom for Safari toolbar */
+  }
+  
+  /* Ensure the submit button is always visible */
+  .modal-overlay.mobile.fullscreen .submit-term-btn {
+    margin-top: 1.5rem;
+    margin-bottom: 3rem; /* Add extra bottom margin to ensure visibility */
+  }
+}
+
+/* iPhone SE and other small devices */
+@media (max-width: 375px) {
+  .submit-form-container {
+    margin: 20px auto 300px auto; /* Even less top margin on very small screens */
+  }
+  
+  .submit-form {
+    padding: 1.25rem 1rem 1rem;
+    gap: 0.5rem;
+  }
+  
+  .form-fields {
+    gap: 0.4rem;
+  }
+  
+  .form-field label {
+    font-size: 0.8rem;
+  }
+  
+  .submit-form input {
+    height: 38px;
+  }
 }

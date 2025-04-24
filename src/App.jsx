@@ -20,6 +20,9 @@ export default function App() {
   const [selectedTerm, setSelectedTerm] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [shouldShake, setShouldShake] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isCompactDesktop, setIsCompactDesktop] = useState(window.innerWidth < 900);
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 
   const inputRef = useRef(null);
 
@@ -28,7 +31,52 @@ export default function App() {
       .then(res => res.json())
       .then(data => setTerms(data))
       .catch(err => console.error('Error loading terms.json:', err));
+    
+    // Add responsive handler
+    const handleResize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      setIsMobile(width < 768);
+      setIsCompactDesktop(width >= 768 && width < 900);
+      setViewportHeight(height);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    // Force a reflow/repaint to ensure correct height calculation
+    setTimeout(handleResize, 100);
+    
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Effect to prevent scrolling on mobile only
+  useEffect(() => {
+    if (isMobile && !randomTerm && !isModalOpen) {
+      // Only prevent scrolling on home page (when no modal is open)
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      document.documentElement.style.height = '100%';
+      document.body.style.height = '100%';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.documentElement.style.height = '';
+      document.body.style.height = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.documentElement.style.height = '';
+      document.body.style.height = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    };
+  }, [isMobile, randomTerm, isModalOpen]);
 
   const showRandomTerm = () => {
     const keys = Object.keys(terms);
@@ -51,40 +99,36 @@ export default function App() {
     }
   };
 
-  return (
-    <div style={{
-      fontFamily: 'Inter, sans-serif',
-      background: 'linear-gradient(120deg, #006eff, #0038c7)',
-      color: 'white',
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
-      {/* Centered content block */}
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        padding: '2rem'
-      }}>
-        <h1 style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>BAZED & CONFUSED</h1>
-        <p style={{ marginTop: '0rem', marginBottom: '3rem', letterSpacing: '0.15px' }}>
-          Look up any crypto term, or hit <b>“Surprise me”</b> to explore new ones.
-        </p>
+  const handleCloseModal = () => {
+    setRandomTerm(null);
+  };
 
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: '1rem',
-          marginBottom: '2rem',
-          maxWidth: '100%',
-        }}>
-          <div style={{ flexShrink: 1 }}>
+  const handleSurpriseAgain = () => {
+    // Get a new random term without closing the modal
+    const keys = Object.keys(terms).filter(key => key !== randomKey);
+    const random = keys[Math.floor(Math.random() * keys.length)];
+    setRandomKey(random);
+    setRandomTerm(terms[random]);
+  };
+
+  const handleSubmitFormClose = () => {
+    setIsModalOpen(false);
+  };
+
+  // Different layouts for mobile and desktop
+  const renderSearchInterface = () => {
+    if (isMobile) {
+      // Mobile layout - with search bar nudged right and buttons moved down
+      return (
+        <>
+          {/* Search bar - centered with slight right adjustment */}
+          <div style={{ 
+            width: '100%', 
+            maxWidth: '450px', 
+            marginBottom: '20px', // Reduced spacing between search bar and buttons
+            margin: '0 auto',
+            paddingLeft: '14px' // This nudges the search bar to the right
+          }}>
             <SearchBar
               terms={terms}
               searchTerm={searchTerm}
@@ -103,32 +147,202 @@ export default function App() {
               inputRef={inputRef}
             />
           </div>
-
-          <div style={{ display: 'flex', gap: '1rem', flexShrink: 0, marginLeft: '2.1rem' }}>
+          
+          {/* Buttons below the search bar with added spacing - centered */}
+          <div style={{ 
+            display: 'flex', 
+            gap: '16px', 
+            justifyContent: 'center',
+            margin: '0 auto',
+            width: 'auto',
+            marginTop: '10px',  // Reduced margin
+            marginBottom: '10px' // Added explicit bottom margin to control space
+          }}>
             <Button variant="outline-white" onClick={openSearchTerm}>
               Get answer
             </Button>
-            <Button variant="primary" onClick={showRandomTerm}>
+            <Button variant="primary" onClick={showRandomTerm} isSurpriseMe={true}>
+              Surprise me
+            </Button>
+          </div>
+        </>
+      );
+    } else {
+      // Desktop layout - adjust based on window width
+      return (
+        <div style={{
+          display: 'flex',
+          flexDirection: isCompactDesktop ? 'column' : 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: isCompactDesktop ? '24px' : '32px',
+          margin: '0 auto',
+          maxWidth: '800px'
+        }}>
+          {/* Search bar with conditional styling */}
+          <div style={{ 
+            flex: isCompactDesktop ? 'initial' : '1', 
+            width: isCompactDesktop ? '100%' : 'auto',
+            minWidth: isCompactDesktop ? 'auto' : '300px', 
+            maxWidth: '450px',
+            paddingRight: isCompactDesktop ? '0' : '12px',
+            margin: isCompactDesktop ? '0 auto' : '0',
+            paddingLeft: isCompactDesktop ? '0px' : '0', // Apply the nudge to compact desktop too
+            marginLeft: isCompactDesktop ? '-1rem' : '0'
+          }}>
+            <SearchBar
+              terms={terms}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              onSelectTerm={(term) => {
+                setSelectedTerm(term);
+                setRandomTerm(terms[term]);
+                setRandomKey(term);
+              }}
+              onSubmit={(term) => {
+                setSelectedTerm(term);
+                setRandomTerm(terms[term]);
+                setRandomKey(term);
+              }}
+              shouldShake={shouldShake}
+              inputRef={inputRef}
+            />
+          </div>
+          
+          {/* Buttons with conditional styling // For desktop layout: */}       
+          <div style={{ 
+            display: 'flex', 
+            gap: '16px', 
+            flexShrink: 0,
+            marginLeft: isCompactDesktop ? '0' : '10px',
+            justifyContent: isCompactDesktop ? 'center' : 'flex-start',
+            width: isCompactDesktop ? 'auto' : 'initial',
+            margin: isCompactDesktop ? '0 auto' : '0'
+          }}>
+            <Button variant="outline-white" onClick={openSearchTerm}>
+              Get answer
+            </Button>
+            <Button variant="primary" onClick={showRandomTerm} isSurpriseMe={true}>
               Surprise me
             </Button>
           </div>
         </div>
+      );
+    }
+  };
 
-        {isModalOpen && <SubmitForm onClose={() => setIsModalOpen(false)} />}
+  // Render subtitle text with conditional line break based on mobile or desktop
+  const renderSubtitleText = () => {
+    if (isMobile) {
+      return (
+        <>
+          Look up any crypto term, or hit <b>"Surprise me"</b><br />
+          to explore new ones.
+        </>
+      );
+    } else {
+      return (
+        <>
+          Look up any crypto term, or hit <b>"Surprise me"</b> to explore new ones.
+        </>
+      );
+    }
+  };
+
+  // Calculate dynamic spacing for mobile
+  const calculateMobileSpacing = () => {
+    // This is a calculation for spacing the elements evenly in the viewport
+    // Adjust these values as needed
+    const footerHeight = 50; // Estimated height of footer
+    const topOffset = viewportHeight * 0.2; // Position title 20% from top
+    
+    return {
+      marginTop: `${topOffset}px`,
+      marginBottom: `${footerHeight + 20}px` // Add some buffer
+    };
+  };
+
+  const mobileSpacing = isMobile ? calculateMobileSpacing() : {};
+
+  return (
+    <div style={{
+      fontFamily: 'Inter, sans-serif',
+      background: 'linear-gradient(120deg, #006eff, #0038c7)',
+      color: 'white',
+      height: isMobile ? '100vh' : 'auto', // Force exact viewport height on mobile
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: isMobile ? 'hidden' : 'visible', // Prevent scrolling on mobile
+      position: 'relative'
+    }}>
+      {/* Centered content block */}
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: isMobile ? 'flex-start' : 'center', // Center on desktop, but align at top on mobile
+        textAlign: 'center',
+        padding: isMobile ? '0 16px' : '16px', // Remove vertical padding on mobile
+        overflow: isMobile ? 'hidden' : 'visible', // Prevent scrolling on mobile
+        height: isMobile ? '100%' : 'auto',
+        boxSizing: 'border-box',
+        position: 'relative',
+        ...mobileSpacing
+      }}>
+        {/* Title and subtitle - centered */}
+        <div style={{
+          width: '100%',
+          maxWidth: '800px',
+          margin: '0 auto',
+          marginBottom: isMobile ? '1.5rem' : '3rem', // Reduced margin on mobile
+        }}>
+          <h1 style={{ 
+            fontSize: isMobile ? '2.5rem' : '3rem', // Slightly smaller font on mobile
+            marginTop: isMobile ? '0' : '-3rem', // Remove negative margin on mobile
+            marginBottom: '0.5rem',
+            fontWeight: '700', // Adding a bit more boldness
+            lineHeight: '1.1' // Tighter line height to save space
+          }}>
+            BAZED & CONFUSED
+          </h1>
+          <p style={{ 
+            marginTop: '0', 
+            marginBottom: isMobile ? '1.5rem' : '2rem',
+            letterSpacing: '0.15px',
+            lineHeight: '1.3', // Tighter line height for mobile
+            fontSize: isMobile ? '0.95rem' : '1rem' // Slightly smaller font on mobile
+          }}>
+            {renderSubtitleText()}
+          </p>
+        </div>
+
+        {renderSearchInterface()}
+
+        {isModalOpen && <SubmitForm onClose={handleSubmitFormClose} />}
 
         {randomTerm && (
           <TermModal
             termData={randomTerm}
             termKey={randomKey}
-            onClose={() => setRandomTerm(null)}
-            onSurpriseAgain={showRandomTerm}
+            onClose={handleCloseModal}
+            onSurpriseAgain={handleSurpriseAgain}
             farcasterUser={profile?.username}
           />
         )}
       </div>
 
-      {/* Footer always at the bottom */}
-      <Footer onSubmitClick={() => setIsModalOpen(true)} />
+      {/* Footer always at the bottom - position fixed on mobile */}
+      <div style={{
+        position: isMobile ? 'fixed' : 'relative',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        zIndex: 10
+      }}>
+        <Footer onSubmitClick={() => setIsModalOpen(true)} />
+      </div>
     </div>
   );
 }
