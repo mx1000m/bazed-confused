@@ -80,6 +80,15 @@ export default function App() {
     };
   }, [isMobile, randomTerm, isModalOpen]);
 
+  // Handler for when a new term is submitted
+  const handleTermSubmitted = (newTerm) => {
+    // Update the terms state with the new term
+    setTerms(prevTerms => ({
+      ...prevTerms,
+      ...newTerm
+    }));
+  };
+
   const showRandomTerm = () => {
     const keys = Object.keys(terms);
     const random = keys[Math.floor(Math.random() * keys.length)];
@@ -333,7 +342,12 @@ export default function App() {
 
         {renderSearchInterface()}
 
-        {isModalOpen && <SubmitForm onClose={handleSubmitFormClose} />}
+        {isModalOpen && (
+          <SubmitForm 
+            onClose={handleSubmitFormClose} 
+            onTermSubmitted={handleTermSubmitted}
+          />
+        )}
 
         {randomTerm && (
           <TermModal

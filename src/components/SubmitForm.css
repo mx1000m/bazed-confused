@@ -130,11 +130,30 @@
   text-align: left;
 }
 
+/* === INPUT CONTAINER WITH COUNTER === */
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Character counter styles */
+.char-counter {
+  position: absolute;
+  bottom: 5px;
+  right: 8px;
+  font-size: 0.7rem;
+  color: #666;
+  pointer-events: none;
+  background-color: transparent;
+  padding: 0 2px;
+}
+
 /* === INPUT STYLING === */
 .submit-form input,
 .examples-textarea {
   height: 40px;
   padding: 0.5rem 0.75rem;
+  padding-right: 3.5rem; /* Make room for the counter */
   font-size: 0.9rem;
   font-family: 'Inter', sans-serif;
   border-radius: 12px;
@@ -170,29 +189,41 @@
 }
 
 [data-shake] {
-  animation: shake 0.3s ease-in-out;
+  animation: shake 0.2s ease-in-out; /* Faster animation (0.2s instead of 0.3s) */
 }
 
 @keyframes shake {
   0% { transform: translateX(0); }
-  20% { transform: translateX(-5px); }
-  40% { transform: translateX(5px); }
-  60% { transform: translateX(-5px); }
-  80% { transform: translateX(5px); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-8px); }
+  80% { transform: translateX(8px); }
   100% { transform: translateX(0); }
 }
 
 /* === SUBMIT BUTTON === */
 .submit-term-btn {
-  padding: 0.75rem;
+  padding: 0.75rem 1.5rem;
   background: #0052FF;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-weight: bold;
+  border-radius: 12px;
+  font-weight: 600;
   cursor: pointer;
   margin-top: 0.25rem;
   font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.submit-term-btn:hover {
+  background-color: #002fa1;
+  transform: scale(1.02);
+}
+
+.submit-term-btn:active {
+  transform: scale(0.99);
+  transition: transform 0.1s ease;
 }
 
 /* Create a spacer element after the form */

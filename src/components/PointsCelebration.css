@@ -1,0 +1,78 @@
+.points-celebration {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.points-celebration.visible {
+  opacity: 1;
+}
+
+.points-celebration.hidden {
+  opacity: 0;
+}
+
+.points-text {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #0052FF;
+  animation: pointsAnimation 3s ease-out forwards;
+  text-shadow: 0 0 10px rgba(0, 82, 255, 0.7);
+  font-family: 'Inter', sans-serif;
+}
+
+@keyframes pointsAnimation {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  animation: confettiAnimation 3s ease-out forwards;
+}
+
+@keyframes confettiAnimation {
+  0% {
+    transform: translateY(0) rotate(0) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  35% {
+    transform: translateY(-40vh) rotate(90deg) scale(1);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-60vh) rotate(180deg) scale(0.5);
+    opacity: 0;
+  }
+}
