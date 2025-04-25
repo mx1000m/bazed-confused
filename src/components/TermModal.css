@@ -271,13 +271,3 @@
   border-radius: 8px;
   margin: 1rem 0;
 }
-
-.term-removed-message h2 {
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  color: #d43f3a;
-}
-
-.term-removed-message p {
-  line-height: 1.5;
-}

@@ -55,7 +55,10 @@ export default function App() {
 
   // Effect to prevent scrolling on mobile only
   useEffect(() => {
-    if (isMobile && !randomTerm && !isModalOpen && !isLearnMoreOpen) {
+    // Check if any modal is open
+    const isAnyModalOpen = randomTerm || isModalOpen || isLearnMoreOpen;
+    
+    if (isMobile && !isAnyModalOpen) {
       // Only prevent scrolling on home page (when no modal is open)
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
@@ -138,7 +141,7 @@ export default function App() {
           <div style={{ 
             width: '100%', 
             maxWidth: '450px', 
-            marginBottom: '20px', // Reduced spacing between search bar and buttons
+            marginBottom: '-10px', // Reduced spacing between search bar and buttons
             margin: '0 auto',
             paddingLeft: '14px' // This nudges the search bar to the right
           }}>
@@ -301,8 +304,11 @@ export default function App() {
 
   const mobileSpacing = isMobile ? calculateMobileSpacing() : {};
 
+  // Check if any modal is open
+  const isAnyModalOpen = randomTerm || isModalOpen || isLearnMoreOpen;
+  
   // Show login button or profile card only when no modal is open
-  const shouldShowAuthControls = !randomTerm && !isModalOpen && !isLearnMoreOpen;
+  const shouldShowAuthControls = !isAnyModalOpen;
 
   return (
     <div style={{
@@ -384,6 +390,7 @@ export default function App() {
           <SubmitForm 
             onClose={handleSubmitFormClose} 
             onTermSubmitted={handleTermSubmitted}
+            terms={terms} // Pass terms to SubmitForm
           />
         )}
 

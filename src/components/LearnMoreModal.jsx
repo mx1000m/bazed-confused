@@ -37,12 +37,32 @@ const LearnMoreModal = ({ onClose }) => {
     
     // Store the original body style
     const originalOverflow = document.body.style.overflow;
+    const originalPosition = document.body.style.position;
+    const originalWidth = document.body.style.width;
+    const originalHeight = document.body.style.height;
+    const originalDocumentOverflow = document.documentElement.style.overflow;
+    const originalDocumentHeight = document.documentElement.style.height;
+    
+    // Apply styles to prevent background scrolling
+    if (isMobile) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      document.documentElement.style.height = '100%';
+      document.body.style.height = '100%';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    }
     
     return () => {
       document.removeEventListener('touchmove', preventTouchMove);
       document.body.style.overflow = originalOverflow;
+      document.body.style.position = originalPosition;
+      document.body.style.width = originalWidth;
+      document.body.style.height = originalHeight;
+      document.documentElement.style.overflow = originalDocumentOverflow;
+      document.documentElement.style.height = originalDocumentHeight;
     };
-  }, []);
+  }, [isMobile]);
   
   // Fade in on mount
   useEffect(() => {

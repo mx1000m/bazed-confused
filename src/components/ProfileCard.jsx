@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useProfile } from '@farcaster/auth-kit';
 import './ProfileCard.css';
+import ProfileCardModal from './ProfileCardModal';
 
 const ProfileCard = ({ terms }) => {
   const { isAuthenticated, profile } = useProfile();
   const [score, setScore] = useState(0);
+  const [termsSubmitted, setTermsSubmitted] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Check if mobile on resize
   useEffect(() => {
@@ -21,14 +24,39 @@ const ProfileCard = ({ terms }) => {
   useEffect(() => {
     if (isAuthenticated && profile && terms) {
       // Count terms submitted by current user
-      const userSubmissionsCount = Object.values(terms).filter(
+      const userSubmissions = Object.values(terms).filter(
         term => term.submitted_by === `@${profile.username}`
-      ).length;
+      );
+      
+      // Set the terms submitted count
+      setTermsSubmitted(userSubmissions.length);
       
       // Each submission is worth 10 points
-      setScore(userSubmissionsCount * 10);
+      setScore(userSubmissions.length * 10);
     }
   }, [isAuthenticated, profile, terms]);
+
+  const handleCardClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCastToFarcaster = () => {
+    // URL to share
+    const shareUrl = window.location.origin;
+    
+    // Message to share
+    const message = `Check out BAZED & CONFUSED - I've submitted ${termsSubmitted} crypto terms and earned ${score} points so far! Learn crypto slang at ${shareUrl}`;
+    
+    // Create the Farcaster cast URL
+    const castUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(message)}`;
+    
+    // Open in a new tab
+    window.open(castUrl, '_blank');
+  };
 
   if (!isAuthenticated || !profile) {
     return null;
@@ -48,15 +76,31 @@ const ProfileCard = ({ terms }) => {
   };
 
   return (
-    <div className="profile-card" style={{ top: isMobile ? '12px' : '16px' }}>
-      <div className="profile-info">
-        <div className="profile-name">@{profile.username}</div>
-        <div className="profile-score">{score} points</div>
+    <>
+      <div 
+        className="profile-card" 
+        style={{ top: isMobile ? '12px' : '16px', cursor: 'pointer' }}
+        onClick={handleCardClick}
+      >
+        <div className="profile-info">
+          <div className="profile-name">@{profile.username}</div>
+          <div className="profile-score">{score} points</div>
+        </div>
+        <div className="profile-image">
+          <img src={getProfileImageUrl()} alt={`@${profile.username}`} />
+        </div>
       </div>
-      <div className="profile-image">
-        <img src={getProfileImageUrl()} alt={`@${profile.username}`} />
-      </div>
-    </div>
+
+      {isModalOpen && (
+        <ProfileCardModal
+          onClose={handleCloseModal}
+          profile={profile}
+          score={score}
+          termsSubmitted={termsSubmitted}
+          onCast={handleCastToFarcaster}
+        />
+      )}
+    </>
   );
 };
 

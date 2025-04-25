@@ -1,193 +1,202 @@
 /* === MODAL OVERLAY === */
 .learn-more-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  z-index: 1200;
-  overflow-y: auto; /* Allow vertical scrolling */
-  padding: 20px 10px; /* Default padding */
-  box-sizing: border-box;
-  /* Push the modal towards the top and ensure minimum scrollable area */
-  min-height: calc(100% + 300px); /* Force scrollable area */
-  opacity: 0; /* Start transparent */
-  transition: opacity 0.15s ease; /* Quick fade for overlay */
-}
-
-.learn-more-modal-overlay.fade-in {
-  opacity: 1;
-}
-
-/* === MODAL CONTAINER === */
-.learn-more-modal-container {
-  width: 100%;
-  max-width: 500px;
-  margin: 50px auto 300px auto; /* Top and bottom margins */
-  position: relative; /* Position relative for absolute positioning of children */
-}
-
-.learn-more-modal {
-  background: white;
-  color: black;
-  padding: 2rem;
-  border-radius: 16px;
-  width: 100%;
-  max-width: 500px;
-  position: relative;
-  text-align: left;
-  opacity: 0; /* Start transparent */
-  transition: opacity 0.15s ease; /* Faster fade for modal */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  overflow-y: auto; /* Enable scrolling within modal if content is too long */
-  max-height: 80vh; /* Limit height to 80% of viewport height */
-}
-
-.learn-more-modal.fade-in {
-  opacity: 1;
-}
-
-/* New content fade transition */
-.learn-more-modal-content {
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-
-.learn-more-modal-content.fade-in {
-  opacity: 1;
-}
-
-/* Scrollbar styling for desktop */
-.learn-more-modal::-webkit-scrollbar {
-  width: 6px;
-}
-.learn-more-modal::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 4px;
-}
-.learn-more-modal::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* === CONTENT STYLES === */
-.learn-more-modal h2 {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
-  color: #0052FF;
-}
-
-.learn-more-section {
-  margin-bottom: 1rem;
-}
-
-.learn-more-heading {
-  font-size: 1.1rem;
-  line-height: 1.4;
-  margin-bottom: 1rem;
-}
-
-.learn-more-list {
-  list-style: none;
-  padding: 0;
-  margin: 1.5rem 0;
-}
-
-.learn-more-list li {
-  display: flex;
-  margin-bottom: 0.8rem;
-  line-height: 1.4;
-  align-items: flex-start;
-}
-
-.learn-more-icon {
-  margin-right: 10px;
-  font-size: 1.2rem;
-  display: inline-block;
-  min-width: 24px;
-}
-
-.learn-more-tagline {
-  font-style: italic;
-  margin-top: 1.5rem;
-  font-size: 1.1rem;
-  color: #0038c7;
-}
-
-.learn-more-actions {
-  margin-top: 2rem;
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* ===== MOBILE SPECIFIC STYLES ===== */
-@media (max-width: 768px) {
-  .learn-more-modal-overlay {
-    align-items: flex-start;
-    padding-top: 20px;
-    min-height: calc(100% + 350px); /* Larger scrollable area on mobile */
-  }
-  
-  .learn-more-modal-container {
-    margin: 30px auto 300px auto; /* Less top margin on mobile */
-  }
-  
-  .learn-more-modal {
-    width: 100%;
-    border-radius: 16px;
-    padding: 1.5rem;
-    max-height: 85vh; /* Slightly higher on mobile */
-  }
-  
-  /* Mobile scrollbar styles */
-  .learn-more-modal::-webkit-scrollbar {
-    width: 4px; /* Smaller scrollbar for mobile */
-  }
-}
-
-/* Full screen on mobile */
-@media (max-width: 768px) {
-  .learn-more-modal-overlay.mobile {
-    padding: 0;
-    display: block;
-    overflow-y: auto; /* Allow scrolling on the overlay */
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    min-height: 100%; /* Reset the min-height */
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    z-index: 1200;
+    overflow-y: auto; /* Allow vertical scrolling */
+    padding: 20px 10px; /* Default padding */
+    box-sizing: border-box;
+    /* Push the modal towards the top and ensure minimum scrollable area */
+    min-height: calc(100% + 300px); /* Force scrollable area */
+    opacity: 0; /* Start transparent */
+    transition: opacity 0.15s ease; /* Quick fade for overlay */
   }
   
-  .learn-more-modal-overlay.mobile .learn-more-modal-container {
-    margin: 0;
-    min-height: 100%;
-    max-width: none;
+  .learn-more-modal-overlay.fade-in {
+    opacity: 1;
   }
   
-  .learn-more-modal-overlay.mobile .learn-more-modal {
+  /* === MODAL CONTAINER === */
+  .learn-more-modal-container {
     width: 100%;
-    min-height: 100%;
-    max-height: none; /* Remove max-height restriction */
-    border-radius: 0;
-    overflow-y: visible; /* Make sure content is visible */
-    padding-bottom: 100px; /* Add extra padding at bottom for Safari toolbar */
+    max-width: 500px;
+    margin: 50px auto 300px auto; /* Top and bottom margins */
+    position: relative; /* Position relative for absolute positioning of children */
   }
   
-  /* Ensure the buttons are always visible */
-  .learn-more-modal-overlay.mobile .learn-more-actions {
-    margin-top: 1.5rem;
-    margin-bottom: 3rem; /* Add extra bottom margin to ensure visibility */
-  }
-}
-
-/* iPhone SE and other small devices */
-@media (max-width: 375px) {
   .learn-more-modal {
-    padding: 1.25rem;
+    background: white;
+    color: black;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    text-align: left;
+    opacity: 0; /* Start transparent */
+    transition: opacity 0.15s ease; /* Faster fade for modal */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    overflow-y: auto; /* Enable scrolling within modal if content is too long */
+    max-height: 80vh; /* Limit height to 80% of viewport height */
   }
-}
+  
+  .learn-more-modal.fade-in {
+    opacity: 1;
+  }
+  
+  /* New content fade transition */
+  .learn-more-modal-content {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  
+  .learn-more-modal-content.fade-in {
+    opacity: 1;
+  }
+  
+  /* Scrollbar styling for desktop */
+  .learn-more-modal::-webkit-scrollbar {
+    width: 6px;
+  }
+  .learn-more-modal::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
+  .learn-more-modal::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  /* === CONTENT STYLES === */
+  .learn-more-modal h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: #0052FF;
+  }
+  
+  .learn-more-section {
+    margin-bottom: 1rem;
+  }
+  
+  .learn-more-heading {
+    font-size: 1.1rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  
+  .learn-more-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+  
+  .learn-more-list li {
+    display: flex;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+    align-items: flex-start;
+  }
+  
+  .learn-more-icon {
+    margin-right: 10px;
+    font-size: 1.2rem;
+    display: inline-block;
+    min-width: 24px;
+  }
+  
+  .learn-more-tagline {
+    font-style: italic;
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    color: #0038c7;
+  }
+  
+  .learn-more-actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  /* === MOBILE SPECIFIC STYLES ===== */
+  @media (max-width: 768px) {
+    .learn-more-modal-overlay {
+      align-items: flex-start;
+      padding-top: 20px;
+      min-height: calc(100% + 350px); /* Larger scrollable area on mobile */
+    }
+    
+    .learn-more-modal-container {
+      margin: 30px auto 300px auto; /* Less top margin on mobile */
+    }
+    
+    .learn-more-modal {
+      width: 100%;
+      border-radius: 16px;
+      padding: 1.5rem;
+      max-height: 85vh; /* Slightly higher on mobile */
+    }
+    
+    /* Add top margin to title on mobile */
+    .learn-more-modal h2 {
+      margin-top: 16px;
+    }
+    
+    /* Mobile scrollbar styles */
+    .learn-more-modal::-webkit-scrollbar {
+      width: 4px; /* Smaller scrollbar for mobile */
+    }
+  }
+  
+  /* Full screen on mobile */
+  @media (max-width: 768px) {
+    .learn-more-modal-overlay.mobile {
+      padding: 0;
+      display: block;
+      overflow-y: auto; /* Allow scrolling on the overlay */
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      min-height: 100vh; /* Use viewport height instead */
+      height: 100%; /* Ensure it fills the entire height */
+    }
+    
+    .learn-more-modal-overlay.mobile .learn-more-modal-container {
+      margin: 0;
+      min-height: 100vh;
+      height: 100%;
+      max-width: none;
+    }
+    
+    .learn-more-modal-overlay.mobile .learn-more-modal {
+      width: 100%;
+      min-height: 100vh;
+      height: 100%; /* Ensure it takes full height */
+      max-height: none; /* Remove max-height restriction */
+      border-radius: 0;
+      overflow-y: visible; /* Make sure content is visible */
+      padding-bottom: 150px; /* Increased padding at bottom to eliminate gap */
+    }
+    
+    /* Ensure the buttons are always visible */
+    .learn-more-modal-overlay.mobile .learn-more-actions {
+      margin-top: 1.5rem;
+      margin-bottom: 3rem; /* Add extra bottom margin to ensure visibility */
+    }
+  }
+  
+  /* Mobile full screen styles with additional adjustments for the title */
+  @media (max-width: 768px) {
+    .learn-more-modal-overlay.mobile .learn-more-modal h2 {
+      margin-top: 24px; /* Increase top margin for the title on mobile */
+      padding-top: 10px; /* Add padding as well for more space */
+    }
+  }
