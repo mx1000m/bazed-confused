@@ -125,6 +125,13 @@ export const handler = async function(event, context) {
       }
     }
 
+    // Log the updated vote counts before saving
+    console.log('Updated vote counts:', {
+      term: termKey,
+      upvotes: votesData.terms[termKey].upvotes,
+      downvotes: votesData.terms[termKey].downvotes
+    });
+
     // Save the updated votes data
     const updatedContent = JSON.stringify(votesData, null, 2);
     
@@ -144,6 +151,7 @@ export const handler = async function(event, context) {
       throw commitError;
     }
 
+    // Return the updated vote counts in the response
     return {
       statusCode: 200,
       body: JSON.stringify({

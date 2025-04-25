@@ -9,7 +9,7 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
   const [fadeInModal, setFadeInModal] = useState(false);
   const [fadeInContent, setFadeInContent] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [voteStatus, setVoteStatus] = useState(null); // null, 'upvoted', or 'downvoted'
+  const [voteStatus, setVoteStatus] = useState(null); // null, 'upvote', or 'downvote'
   const [voteCounts, setVoteCounts] = useState({ upvotes: 0, downvotes: 0 });
   const [voteLoading, setVoteLoading] = useState(false);
   
@@ -61,35 +61,49 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Load vote counts and user's vote status
+  // Reset vote state when term changes
   useEffect(() => {
-    if (termData && termKey) {
-      // Set initial vote counts from termData if available
-      if (termData.votes) {
-        setVoteCounts({
-          upvotes: termData.votes.upvotes || 0,
-          downvotes: termData.votes.downvotes || 0
-        });
-      }
-
-      // Check if user has voted on this term before
+    if (termKey) {
+      // Reset vote status when term changes
+      setVoteStatus(null);
+      setVoteCounts({ upvotes: 0, downvotes: 0 });
+      
+      // Load term votes
+      const fetchTermVotes = async () => {
+        try {
+          const response = await fetch(`/.netlify/functions/getTermVotes?termKey=${encodeURIComponent(termKey)}`);
+          if (response.ok) {
+            const data = await response.json();
+            setVoteCounts({
+              upvotes: data.upvotes || 0,
+              downvotes: data.downvotes || 0
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching term votes:", error);
+        }
+      };
+      
+      fetchTermVotes();
+      
+      // Load user's vote if authenticated
       if (isAuthenticated && profile) {
         const fetchUserVote = async () => {
           try {
             const response = await fetch(`/.netlify/functions/getUserVote?termKey=${encodeURIComponent(termKey)}&username=${encodeURIComponent(profile.username)}`);
             if (response.ok) {
               const data = await response.json();
-              setVoteStatus(data.voteType || null);
+              setVoteStatus(data.voteType);
             }
           } catch (error) {
             console.error("Error fetching user vote:", error);
           }
         };
-
+        
         fetchUserVote();
       }
     }
-  }, [termData, termKey, isAuthenticated, profile]);
+  }, [termKey, isAuthenticated, profile]);
 
   // Handle complete close (overlay + modal)
   const handleClose = () => {
@@ -136,8 +150,8 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
       const newVoteCounts = { ...voteCounts };
       
       // Remove old vote if exists
-      if (oldVoteStatus === 'upvote') newVoteCounts.upvotes--;
-      if (oldVoteStatus === 'downvote') newVoteCounts.downvotes--;
+      if (oldVoteStatus === 'upvote') newVoteCounts.upvotes = Math.max(0, newVoteCounts.upvotes - 1);
+      if (oldVoteStatus === 'downvote') newVoteCounts.downvotes = Math.max(0, newVoteCounts.downvotes - 1);
       
       // Add new vote if not removing
       if (newVoteType === 'upvote') newVoteCounts.upvotes++;
@@ -156,12 +170,23 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
         })
       });
 
+      const responseData = await response.json();
+      
       if (!response.ok) {
         // Revert state if server request failed
         setVoteStatus(oldVoteStatus);
         setVoteCounts(voteCounts);
-        console.error("Vote submission failed");
+        console.error("Vote submission failed", responseData);
         alert("Unable to register your vote. Please try again.");
+      } else {
+        console.log("Vote submitted successfully", responseData);
+        // Update with server counts to ensure consistency
+        if (responseData.upvotes !== undefined && responseData.downvotes !== undefined) {
+          setVoteCounts({
+            upvotes: responseData.upvotes,
+            downvotes: responseData.downvotes
+          });
+        }
       }
     } catch (error) {
       console.error("Error submitting vote:", error);
