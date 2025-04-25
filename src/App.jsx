@@ -6,6 +6,8 @@ import TermModal from './components/TermModal';
 import SearchBar from './components/SearchBar';
 import SubmitForm from './components/SubmitForm';
 import Footer from './components/Footer';
+import LoginButton from './components/LoginButton';
+import ProfileCard from './components/ProfileCard';
 import { useProfile } from '@farcaster/auth-kit';
 import { Buffer } from 'buffer';
 window.Buffer = Buffer;
@@ -155,7 +157,7 @@ export default function App() {
             justifyContent: 'center',
             margin: '0 auto',
             width: 'auto',
-            marginTop: '10px',  // Reduced margin
+            marginTop: '40px',  // Increased margin to move buttons lower
             marginBottom: '10px' // Added explicit bottom margin to control space
           }}>
             <Button variant="outline-white" onClick={openSearchTerm}>
@@ -264,6 +266,9 @@ export default function App() {
 
   const mobileSpacing = isMobile ? calculateMobileSpacing() : {};
 
+  // Show login button or profile card only when no modal is open
+  const shouldShowAuthControls = !randomTerm && !isModalOpen;
+
   return (
     <div style={{
       fontFamily: 'Inter, sans-serif',
@@ -276,6 +281,14 @@ export default function App() {
       overflow: isMobile ? 'hidden' : 'visible', // Prevent scrolling on mobile
       position: 'relative'
     }}>
+      {/* Farcaster Authentication Components */}
+      {shouldShowAuthControls && (
+        <>
+          <LoginButton />
+          <ProfileCard terms={terms} />
+        </>
+      )}
+      
       {/* Centered content block */}
       <div style={{
         flex: 1,

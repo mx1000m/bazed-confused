@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useProfile } from '@farcaster/auth-kit';
 import Button from './Button';
 import './TermModal.css';
 
-const TermModal = ({ termData, termKey, onClose, onSurpriseAgain, farcasterUser }) => {
+const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
+  const { isAuthenticated, profile } = useProfile();
   const [fadeInOverlay, setFadeInOverlay] = useState(false);
   const [fadeInModal, setFadeInModal] = useState(false);
   const [fadeInContent, setFadeInContent] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [voteStatus, setVoteStatus] = useState(null); // null, 'upvoted', or 'downvoted'
+  const [voteCounts, setVoteCounts] = useState({ upvotes: 0, downvotes: 0 });
+  const [voteLoading, setVoteLoading] = useState(false);
   
   // Detect mobile device
   useEffect(() => {
@@ -56,6 +61,36 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain, farcasterUser 
     return () => clearTimeout(timer);
   }, []);
 
+  // Load vote counts and user's vote status
+  useEffect(() => {
+    if (termData && termKey) {
+      // Set initial vote counts from termData if available
+      if (termData.votes) {
+        setVoteCounts({
+          upvotes: termData.votes.upvotes || 0,
+          downvotes: termData.votes.downvotes || 0
+        });
+      }
+
+      // Check if user has voted on this term before
+      if (isAuthenticated && profile) {
+        const fetchUserVote = async () => {
+          try {
+            const response = await fetch(`/.netlify/functions/getUserVote?termKey=${encodeURIComponent(termKey)}&username=${encodeURIComponent(profile.username)}`);
+            if (response.ok) {
+              const data = await response.json();
+              setVoteStatus(data.voteType || null);
+            }
+          } catch (error) {
+            console.error("Error fetching user vote:", error);
+          }
+        };
+
+        fetchUserVote();
+      }
+    }
+  }, [termData, termKey, isAuthenticated, profile]);
+
   // Handle complete close (overlay + modal)
   const handleClose = () => {
     setFadeInOverlay(false);
@@ -80,6 +115,62 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain, farcasterUser 
     }, 150); // Faster transition
   };
 
+  // Handle vote
+  const handleVote = async (voteType) => {
+    if (!isAuthenticated) {
+      alert("Please sign in with Farcaster to vote!");
+      return;
+    }
+
+    if (voteLoading) return;
+    setVoteLoading(true);
+
+    try {
+      const newVoteType = voteStatus === voteType ? null : voteType;
+      
+      // Update local state optimistically
+      const oldVoteStatus = voteStatus;
+      setVoteStatus(newVoteType);
+      
+      // Calculate new vote counts
+      const newVoteCounts = { ...voteCounts };
+      
+      // Remove old vote if exists
+      if (oldVoteStatus === 'upvote') newVoteCounts.upvotes--;
+      if (oldVoteStatus === 'downvote') newVoteCounts.downvotes--;
+      
+      // Add new vote if not removing
+      if (newVoteType === 'upvote') newVoteCounts.upvotes++;
+      if (newVoteType === 'downvote') newVoteCounts.downvotes++;
+      
+      setVoteCounts(newVoteCounts);
+
+      // Send vote to server
+      const response = await fetch('/.netlify/functions/submitVote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          termKey,
+          username: profile.username,
+          voteType: newVoteType
+        })
+      });
+
+      if (!response.ok) {
+        // Revert state if server request failed
+        setVoteStatus(oldVoteStatus);
+        setVoteCounts(voteCounts);
+        console.error("Vote submission failed");
+        alert("Unable to register your vote. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting vote:", error);
+      alert("Error submitting vote. Please try again.");
+    } finally {
+      setVoteLoading(false);
+    }
+  };
+
   if (!termData) return null;
 
   const { definition, explanation, examples, submitted_by } = termData;
@@ -91,7 +182,32 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain, farcasterUser 
           <Button onClick={handleClose} variant="close-circle">✕</Button>
 
           <div className={`term-modal-content ${fadeInContent ? 'fade-in' : ''}`}>
-            <h2>{termKey}</h2>
+            <div className="term-header">
+              <h2>{termKey}</h2>
+              
+              <div className="term-votes">
+                <button 
+                  className={`vote-button upvote ${voteStatus === 'upvote' ? 'active' : ''}`} 
+                  onClick={() => handleVote('upvote')}
+                  disabled={voteLoading}
+                  title="Upvote this term"
+                >
+                  <span className="vote-icon">👍</span>
+                  <span className="vote-count">{voteCounts.upvotes}</span>
+                </button>
+                
+                <button 
+                  className={`vote-button downvote ${voteStatus === 'downvote' ? 'active' : ''}`} 
+                  onClick={() => handleVote('downvote')}
+                  disabled={voteLoading}
+                  title="Downvote this term"
+                >
+                  <span className="vote-icon">👎</span>
+                  <span className="vote-count">{voteCounts.downvotes}</span>
+                </button>
+              </div>
+            </div>
+            
             <hr className="term-divider" />
 
             <div className="term-section">
@@ -131,7 +247,7 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain, farcasterUser 
 
           <div className="term-actions">
             <Button variant="secondary" onClick={handleClose}>Close</Button>
-            <Button variant="primary" onClick={handleSurpriseAgain}>Surprise me again</Button>
+            <Button variant="primary" onClick={handleSurpriseAgain} isSurpriseMe={true}>Surprise me again</Button>
           </div>
         </div>
       </div>

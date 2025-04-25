@@ -71,7 +71,6 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-
 /* Zoom for all buttons */
 .custom-button:hover {
   transform: scale(1.02);
@@ -81,9 +80,6 @@
   transform: scale(0.99);
   transition: transform 0.1s ease;
 }
-
-
-
 
 /* Close Circle Button for the form modal*/
 .custom-button.close-circle {
