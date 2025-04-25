@@ -1,13 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const { Octokit } = require('@octokit/rest');
+import { Octokit } from '@octokit/rest';
 
-// Get GitHub token and repo info from environment variables
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const REPO_OWNER = process.env.REPO_OWNER;
-const REPO_NAME = process.env.REPO_NAME;
-
-exports.handler = async function(event, context) {
+export const handler = async function(event, context) {
   // Only allow POST requests
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
@@ -23,6 +16,17 @@ exports.handler = async function(event, context) {
         body: JSON.stringify({ error: 'Missing required parameters' }) 
       };
     }
+
+    // Get GitHub token and repo info from environment variables
+    const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+    const REPO_OWNER = process.env.REPO_OWNER;
+    const REPO_NAME = process.env.REPO_NAME;
+
+    console.log('Environment vars:', { 
+      tokenExists: !!GITHUB_TOKEN,
+      owner: REPO_OWNER,
+      repo: REPO_NAME
+    });
 
     // Initialize GitHub client
     const octokit = new Octokit({
@@ -49,9 +53,10 @@ exports.handler = async function(event, context) {
       // Decode and parse the content
       const content = Buffer.from(data.content, 'base64').toString();
       votesData = JSON.parse(content);
+      console.log('Successfully fetched existing votes file');
     } catch (error) {
       // File probably doesn't exist yet, we'll create it
-      console.log("Votes file not found, will create a new one");
+      console.log("Votes file not found, will create a new one:", error.message);
       votesData = { terms: {}, users: {} };
     }
 
@@ -102,15 +107,21 @@ exports.handler = async function(event, context) {
     // Save the updated votes data
     const updatedContent = JSON.stringify(votesData, null, 2);
     
-    // Commit the file to GitHub
-    await octokit.repos.createOrUpdateFileContents({
-      owner: REPO_OWNER,
-      repo: REPO_NAME,
-      path: votesFilePath,
-      message: `Update votes for ${termKey}`,
-      content: Buffer.from(updatedContent).toString('base64'),
-      sha: sha, // Include this only if the file already exists
-    });
+    try {
+      // Commit the file to GitHub
+      const result = await octokit.repos.createOrUpdateFileContents({
+        owner: REPO_OWNER,
+        repo: REPO_NAME,
+        path: votesFilePath,
+        message: `Update votes for ${termKey}`,
+        content: Buffer.from(updatedContent).toString('base64'),
+        sha: sha, // Include this only if the file already exists
+      });
+      console.log('Successfully updated votes file');
+    } catch (commitError) {
+      console.error('Error committing to GitHub:', commitError.message);
+      throw commitError;
+    }
 
     return {
       statusCode: 200,
@@ -127,7 +138,11 @@ exports.handler = async function(event, context) {
     
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to submit vote', details: error.message })
+      body: JSON.stringify({ 
+        error: 'Failed to submit vote', 
+        details: error.message,
+        stack: error.stack
+      })
     };
   }
 };

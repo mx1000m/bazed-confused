@@ -1,11 +1,6 @@
-const { Octokit } = require('@octokit/rest');
+import { Octokit } from '@octokit/rest';
 
-// Get GitHub token and repo info from environment variables
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const REPO_OWNER = process.env.REPO_OWNER;
-const REPO_NAME = process.env.REPO_NAME;
-
-exports.handler = async function(event, context) {
+export const handler = async function(event, context) {
   // Only allow GET requests
   if (event.httpMethod !== 'GET') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
@@ -22,6 +17,11 @@ exports.handler = async function(event, context) {
   }
 
   try {
+    // Get GitHub token and repo info from environment variables
+    const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+    const REPO_OWNER = process.env.REPO_OWNER;
+    const REPO_NAME = process.env.REPO_NAME;
+    
     // Initialize GitHub client
     const octokit = new Octokit({
       auth: GITHUB_TOKEN
@@ -77,7 +77,11 @@ exports.handler = async function(event, context) {
     
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to get term votes', details: error.message })
+      body: JSON.stringify({ 
+        error: 'Failed to get term votes', 
+        details: error.message,
+        stack: error.stack
+      })
     };
   }
 };

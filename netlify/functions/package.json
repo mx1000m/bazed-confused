@@ -2,8 +2,7 @@
   "name": "crypto-dictionary-functions",
   "version": "1.0.0",
   "description": "Netlify functions for the Crypto Dictionary",
-  "main": "index.js",
   "dependencies": {
-    "@octokit/rest": "^18.12.0"
+    "@octokit/rest": "^21.1.1"
   }
 }
