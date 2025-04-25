@@ -12,6 +12,7 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
   const [voteStatus, setVoteStatus] = useState(null); // null, 'upvote', or 'downvote'
   const [voteCounts, setVoteCounts] = useState({ upvotes: 0, downvotes: 0 });
   const [voteLoading, setVoteLoading] = useState(false);
+  const [showTermRemovedMessage, setShowTermRemovedMessage] = useState(false);
   
   // Detect mobile device
   useEffect(() => {
@@ -67,6 +68,7 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
       // Reset vote status when term changes
       setVoteStatus(null);
       setVoteCounts({ upvotes: 0, downvotes: 0 });
+      setShowTermRemovedMessage(false);
       
       // Load term votes
       const fetchTermVotes = async () => {
@@ -187,6 +189,16 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
             downvotes: responseData.downvotes
           });
         }
+        
+        // Check if the term was deleted due to downvotes
+        if (responseData.termDeleted) {
+          setShowTermRemovedMessage(true);
+          
+          // Automatically close the modal after 3 seconds
+          setTimeout(() => {
+            handleClose();
+          }, 3000);
+        }
       }
     } catch (error) {
       console.error("Error submitting vote:", error);
@@ -207,72 +219,88 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
           <Button onClick={handleClose} variant="close-circle">✕</Button>
 
           <div className={`term-modal-content ${fadeInContent ? 'fade-in' : ''}`}>
-            <div className="term-header">
-              <h2>{termKey}</h2>
-              
-              <div className="term-votes">
-                <button 
-                  className={`vote-button upvote ${voteStatus === 'upvote' ? 'active' : ''}`} 
-                  onClick={() => handleVote('upvote')}
-                  disabled={voteLoading}
-                  title="Upvote this term"
-                >
-                  <span className="vote-icon">👍</span>
-                  <span className="vote-count">{voteCounts.upvotes}</span>
-                </button>
-                
-                <button 
-                  className={`vote-button downvote ${voteStatus === 'downvote' ? 'active' : ''}`} 
-                  onClick={() => handleVote('downvote')}
-                  disabled={voteLoading}
-                  title="Downvote this term"
-                >
-                  <span className="vote-icon">👎</span>
-                  <span className="vote-count">{voteCounts.downvotes}</span>
-                </button>
-              </div>
-            </div>
-            
-            <hr className="term-divider" />
-
-            <div className="term-section">
-              <p className="term-section-title">Definition:</p>
-              <p className="term-section-content">{definition}</p>
-            </div>
-            <hr className="term-divider" />
-
-            <div className="term-section">
-              <p className="term-section-title">Explanation:</p>
-              <p className="term-section-content">{explanation}</p>
-            </div>
-            <hr className="term-divider" />
-
-            <div className="term-section">
-              <p className="term-section-title">Examples:</p>
-              {examples.map((ex, i) => (
-                <p key={i} className="term-example">
-                  {ex}
+            {showTermRemovedMessage ? (
+              <div className="term-removed-message">
+                <h2>Term Removed</h2>
+                <p>
+                  This term has received too many downvotes and has been automatically removed from the dictionary.
+                  The modal will close shortly.
                 </p>
-              ))}
-            </div>
-            <hr className="term-divider" />
+              </div>
+            ) : (
+              <>
+                <div className="term-header">
+                  <h2>{termKey}</h2>
+                  
+                  <div className="term-votes">
+                    <button 
+                      className={`vote-button upvote ${voteStatus === 'upvote' ? 'active' : ''}`} 
+                      onClick={() => handleVote('upvote')}
+                      disabled={voteLoading}
+                      title="Upvote this term"
+                    >
+                      <span className="vote-icon">👍</span>
+                      <span className="vote-count">{voteCounts.upvotes}</span>
+                    </button>
+                    
+                    <button 
+                      className={`vote-button downvote ${voteStatus === 'downvote' ? 'active' : ''}`} 
+                      onClick={() => handleVote('downvote')}
+                      disabled={voteLoading}
+                      title="Downvote this term"
+                    >
+                      <span className="vote-icon">👎</span>
+                      <span className="vote-count">{voteCounts.downvotes}</span>
+                    </button>
+                  </div>
+                </div>
+                
+                <hr className="term-divider" />
 
-            <div className="term-submitted-by">
-              Submitted by:{' '}
-              <a
-                href={`https://warpcast.com/${submitted_by.replace('@', '')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="term-submitter-link"
-              >
-                {submitted_by}
-              </a>
-            </div>
+                <div className="term-section">
+                  <p className="term-section-title">Definition:</p>
+                  <p className="term-section-content">{definition}</p>
+                </div>
+                <hr className="term-divider" />
+
+                <div className="term-section">
+                  <p className="term-section-title">Explanation:</p>
+                  <p className="term-section-content">{explanation}</p>
+                </div>
+                <hr className="term-divider" />
+
+                <div className="term-section">
+                  <p className="term-section-title">Examples:</p>
+                  {examples.map((ex, i) => (
+                    <p key={i} className="term-example">
+                      {ex}
+                    </p>
+                  ))}
+                </div>
+                <hr className="term-divider" />
+
+                <div className="term-submitted-by">
+                  Submitted by:{' '}
+                  <a
+                    href={`https://warpcast.com/${submitted_by.replace('@', '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="term-submitter-link"
+                  >
+                    {submitted_by}
+                  </a>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="term-actions">
             <Button variant="secondary" onClick={handleClose}>Close</Button>
-            <Button variant="primary" onClick={handleSurpriseAgain} isSurpriseMe={true}>Surprise me again</Button>
+            {!showTermRemovedMessage && (
+              <Button variant="primary" onClick={handleSurpriseAgain} isSurpriseMe={true}>
+                Surprise me again
+              </Button>
+            )}
           </div>
         </div>
       </div>

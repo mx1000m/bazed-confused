@@ -8,6 +8,7 @@ import SubmitForm from './components/SubmitForm';
 import Footer from './components/Footer';
 import LoginButton from './components/LoginButton';
 import ProfileCard from './components/ProfileCard';
+import LearnMoreModal from './components/LearnMoreModal';
 import { useProfile } from '@farcaster/auth-kit';
 import { Buffer } from 'buffer';
 window.Buffer = Buffer;
@@ -16,6 +17,7 @@ export default function App() {
   const { isAuthenticated, profile } = useProfile();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLearnMoreOpen, setIsLearnMoreOpen] = useState(false);
   const [terms, setTerms] = useState({});
   const [randomTerm, setRandomTerm] = useState(null);
   const [randomKey, setRandomKey] = useState('');
@@ -53,7 +55,7 @@ export default function App() {
 
   // Effect to prevent scrolling on mobile only
   useEffect(() => {
-    if (isMobile && !randomTerm && !isModalOpen) {
+    if (isMobile && !randomTerm && !isModalOpen && !isLearnMoreOpen) {
       // Only prevent scrolling on home page (when no modal is open)
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
@@ -78,7 +80,7 @@ export default function App() {
       document.body.style.position = '';
       document.body.style.width = '';
     };
-  }, [isMobile, randomTerm, isModalOpen]);
+  }, [isMobile, randomTerm, isModalOpen, isLearnMoreOpen]);
 
   // Handler for when a new term is submitted
   const handleTermSubmitted = (newTerm) => {
@@ -248,13 +250,37 @@ export default function App() {
       return (
         <>
           Look up any crypto term, or hit <b>"Surprise me"</b><br />
-          to explore new ones.
+          to explore new ones.{' '}
+          <span 
+            className="learn-more-link"
+            onClick={() => setIsLearnMoreOpen(true)}
+            style={{
+              color: '#fff',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              fontWeight: '500'
+            }}
+          >
+            Learn more
+          </span>
         </>
       );
     } else {
       return (
         <>
-          Look up any crypto term, or hit <b>"Surprise me"</b> to explore new ones.
+          Look up any crypto term, or hit <b>"Surprise me"</b> to explore new ones.{' '}
+          <span 
+            className="learn-more-link"
+            onClick={() => setIsLearnMoreOpen(true)}
+            style={{
+              color: '#fff',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              fontWeight: '500'
+            }}
+          >
+            Learn more
+          </span>
         </>
       );
     }
@@ -276,7 +302,7 @@ export default function App() {
   const mobileSpacing = isMobile ? calculateMobileSpacing() : {};
 
   // Show login button or profile card only when no modal is open
-  const shouldShowAuthControls = !randomTerm && !isModalOpen;
+  const shouldShowAuthControls = !randomTerm && !isModalOpen && !isLearnMoreOpen;
 
   return (
     <div style={{
@@ -313,28 +339,40 @@ export default function App() {
         position: 'relative',
         ...mobileSpacing
       }}>
-        {/* Title and subtitle - centered */}
         <div style={{
           width: '100%',
           maxWidth: '800px',
           margin: '0 auto',
-          marginBottom: isMobile ? '1.5rem' : '3rem', // Reduced margin on mobile
+          marginBottom: isMobile ? '1.5rem' : '3rem',
+          position: 'relative',  // Create positioning context
+          textAlign: 'center'    // Ensure content is centered
         }}>
-          <h1 style={{ 
-            fontSize: isMobile ? '2.5rem' : '3rem', // Slightly smaller font on mobile
-            marginTop: isMobile ? '0' : '-3rem', // Remove negative margin on mobile
-            marginBottom: '0.5rem',
-            fontWeight: '700', // Adding a bit more boldness
-            lineHeight: '1.1' // Tighter line height to save space
+          {/* Title with BETA label - now using relative positioning */}
+          <div style={{ 
+            position: 'relative',
+            display: 'inline-block', // This makes container only as wide as content
+            maxWidth: '100%'         // Ensure it doesn't overflow parent
           }}>
-            BAZED & CONFUSED
-          </h1>
+            <h1 style={{ 
+              fontSize: isMobile ? '3rem' : '3rem',
+              marginTop: isMobile ? '0' : '-3rem',
+              marginBottom: '0.5rem',
+              fontWeight: '700',
+              lineHeight: '1.1',
+              textAlign: 'center',
+              whiteSpace: isMobile ? 'normal' : 'nowrap' // Allow wrapping on mobile
+            }}>
+              BAZED & CONFUSED
+            </h1>
+          </div>
+          
+          {/* Subtitle */}
           <p style={{ 
             marginTop: '0', 
             marginBottom: isMobile ? '1.5rem' : '2rem',
             letterSpacing: '0.15px',
-            lineHeight: '1.3', // Tighter line height for mobile
-            fontSize: isMobile ? '0.95rem' : '1rem' // Slightly smaller font on mobile
+            lineHeight: '1.3',
+            fontSize: isMobile ? '0.95rem' : '1rem'
           }}>
             {renderSubtitleText()}
           </p>
@@ -356,6 +394,12 @@ export default function App() {
             onClose={handleCloseModal}
             onSurpriseAgain={handleSurpriseAgain}
             farcasterUser={profile?.username}
+          />
+        )}
+
+        {isLearnMoreOpen && (
+          <LearnMoreModal 
+            onClose={() => setIsLearnMoreOpen(false)} 
           />
         )}
       </div>

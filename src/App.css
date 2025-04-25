@@ -40,3 +40,21 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Add this to your existing App.css file */
+
+.learn-more-link {
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  font-weight: 500;
+}
+
+.learn-more-link:hover {
+  opacity: 0.8;
+}
+
+.learn-more-link:active {
+  opacity: 0.6;
+}

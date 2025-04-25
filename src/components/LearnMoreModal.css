@@ -1,5 +1,5 @@
 /* === MODAL OVERLAY === */
-.term-modal-overlay {
+.learn-more-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -18,19 +18,19 @@
   transition: opacity 0.15s ease; /* Quick fade for overlay */
 }
 
-.term-modal-overlay.fade-in {
+.learn-more-modal-overlay.fade-in {
   opacity: 1;
 }
 
 /* === MODAL CONTAINER === */
-.term-modal-container {
+.learn-more-modal-container {
   width: 100%;
   max-width: 500px;
   margin: 50px auto 300px auto; /* Top and bottom margins */
   position: relative; /* Position relative for absolute positioning of children */
 }
 
-.term-modal {
+.learn-more-modal {
   background: white;
   color: black;
   padding: 2rem;
@@ -47,180 +47,111 @@
   max-height: 80vh; /* Limit height to 80% of viewport height */
 }
 
-.term-modal.fade-in {
+.learn-more-modal.fade-in {
   opacity: 1;
 }
 
 /* New content fade transition */
-.term-modal-content {
+.learn-more-modal-content {
   opacity: 0;
   transition: opacity 0.15s ease;
 }
 
-.term-modal-content.fade-in {
+.learn-more-modal-content.fade-in {
   opacity: 1;
 }
 
 /* Scrollbar styling for desktop */
-.term-modal::-webkit-scrollbar {
+.learn-more-modal::-webkit-scrollbar {
   width: 6px;
 }
-.term-modal::-webkit-scrollbar-thumb {
+.learn-more-modal::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 4px;
 }
-.term-modal::-webkit-scrollbar-track {
+.learn-more-modal::-webkit-scrollbar-track {
   background: transparent;
 }
 
 /* === CONTENT STYLES === */
-.term-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 30px; /* Make space for close button */
-}
-
-.term-header h2 {
-  margin: 0;
-  flex-grow: 1;
-}
-
-.term-votes {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.vote-button {
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 4px 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: all 0.2s ease;
-}
-
-.vote-button:hover {
-  background-color: #f5f5f5;
-}
-
-.vote-button.active {
-  border-color: #0052FF;
-  background-color: rgba(0, 82, 255, 0.1);
-}
-
-.vote-button.upvote.active .vote-count {
+.learn-more-modal h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
   color: #0052FF;
 }
 
-.vote-button.downvote.active .vote-count {
-  color: #ff3a30;
-}
-
-.vote-icon {
-  font-size: 14px;
-}
-
-.vote-count {
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.term-modal h2 {
-  margin-top: 0;
-}
-
-.term-divider {
-  margin: 1rem 0;
-  border: none;
-  border-top: 1px solid #ddd;
-}
-
-.term-section {
+.learn-more-section {
   margin-bottom: 1rem;
 }
 
-.term-section-title {
-  margin-bottom: 0.2rem;
-  font-weight: bold;
+.learn-more-heading {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
 }
 
-.term-section-content {
-  margin-top: 0;
+.learn-more-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
 }
 
-.term-example {
-  font-style: italic;
-  color: #0038c7;
-  font-weight: 500;
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
-}
-
-.term-example:first-child {
-  margin-top: 0.5rem;
-}
-
-.term-submitted-by {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  font-style: italic;
-}
-
-.term-submitter-link {
-  color: #0038c7;
-  text-decoration: none;
-}
-
-.term-actions {
-  margin-top: 1.5rem;
+.learn-more-list li {
   display: flex;
-  gap: 1rem;
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+  align-items: flex-start;
+}
+
+.learn-more-icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+  display: inline-block;
+  min-width: 24px;
+}
+
+.learn-more-tagline {
+  font-style: italic;
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  color: #0038c7;
+}
+
+.learn-more-actions {
+  margin-top: 2rem;
+  display: flex;
   justify-content: flex-end;
 }
 
 /* ===== MOBILE SPECIFIC STYLES ===== */
 @media (max-width: 768px) {
-  .term-modal-overlay {
+  .learn-more-modal-overlay {
     align-items: flex-start;
     padding-top: 20px;
     min-height: calc(100% + 350px); /* Larger scrollable area on mobile */
   }
   
-  .term-modal-container {
+  .learn-more-modal-container {
     margin: 30px auto 300px auto; /* Less top margin on mobile */
   }
   
-  .term-modal {
+  .learn-more-modal {
     width: 100%;
     border-radius: 16px;
     padding: 1.5rem;
     max-height: 85vh; /* Slightly higher on mobile */
   }
   
-  .term-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  
-  .term-votes {
-    align-self: flex-end;
-  }
-  
   /* Mobile scrollbar styles */
-  .term-modal::-webkit-scrollbar {
+  .learn-more-modal::-webkit-scrollbar {
     width: 4px; /* Smaller scrollbar for mobile */
   }
 }
 
 /* Full screen on mobile */
 @media (max-width: 768px) {
-  .term-modal-overlay.mobile {
+  .learn-more-modal-overlay.mobile {
     padding: 0;
     display: block;
     overflow-y: auto; /* Allow scrolling on the overlay */
@@ -232,13 +163,13 @@
     min-height: 100%; /* Reset the min-height */
   }
   
-  .term-modal-overlay.mobile .term-modal-container {
+  .learn-more-modal-overlay.mobile .learn-more-modal-container {
     margin: 0;
     min-height: 100%;
     max-width: none;
   }
   
-  .term-modal-overlay.mobile .term-modal {
+  .learn-more-modal-overlay.mobile .learn-more-modal {
     width: 100%;
     min-height: 100%;
     max-height: none; /* Remove max-height restriction */
@@ -248,7 +179,7 @@
   }
   
   /* Ensure the buttons are always visible */
-  .term-modal-overlay.mobile .term-actions {
+  .learn-more-modal-overlay.mobile .learn-more-actions {
     margin-top: 1.5rem;
     margin-bottom: 3rem; /* Add extra bottom margin to ensure visibility */
   }
@@ -256,28 +187,7 @@
 
 /* iPhone SE and other small devices */
 @media (max-width: 375px) {
-  .term-modal {
+  .learn-more-modal {
     padding: 1.25rem;
   }
-}
-
-/* Add these styles to your existing TermModal.css file */
-
-.term-removed-message {
-  text-align: center;
-  padding: 2rem;
-  color: #d43f3a;
-  background-color: rgba(212, 63, 58, 0.1);
-  border-radius: 8px;
-  margin: 1rem 0;
-}
-
-.term-removed-message h2 {
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  color: #d43f3a;
-}
-
-.term-removed-message p {
-  line-height: 1.5;
 }

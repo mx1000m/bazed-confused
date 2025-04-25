@@ -151,6 +151,55 @@ export const handler = async function(event, context) {
       throw commitError;
     }
 
+    // Check if the term should be deleted (15 or more downvotes)
+    const shouldDeleteTerm = votesData.terms[termKey].downvotes >= 15;
+    let deletedTerm = false;
+    
+    if (shouldDeleteTerm) {
+      console.log(`Term ${termKey} has ${votesData.terms[termKey].downvotes} downvotes. Attempting to remove it.`);
+      
+      try {
+        // Get the terms.json file
+        const termsFilePath = 'public/terms.json';
+        const { data: termsFile } = await octokit.repos.getContent({
+          owner: REPO_OWNER,
+          repo: REPO_NAME,
+          path: termsFilePath,
+        });
+        
+        // Decode and parse the content
+        const termsContent = Buffer.from(termsFile.content, 'base64').toString();
+        const termsData = JSON.parse(termsContent);
+        
+        // Check if the term exists in the terms data
+        if (termsData[termKey]) {
+          // Remove the term
+          delete termsData[termKey];
+          
+          // Save the updated terms data
+          const updatedTermsContent = JSON.stringify(termsData, null, 2);
+          
+          await octokit.repos.createOrUpdateFileContents({
+            owner: REPO_OWNER,
+            repo: REPO_NAME,
+            path: termsFilePath,
+            message: `Remove term ${termKey} due to negative votes`,
+            content: Buffer.from(updatedTermsContent).toString('base64'),
+            sha: termsFile.sha,
+          });
+          
+          console.log(`Successfully removed term ${termKey} from terms.json`);
+          deletedTerm = true;
+        } else {
+          console.log(`Term ${termKey} not found in terms.json, nothing to delete.`);
+        }
+      } catch (error) {
+        console.error(`Error removing term ${termKey}:`, error.message);
+        // We continue execution even if deletion fails
+        // The vote has already been recorded successfully
+      }
+    }
+
     // Return the updated vote counts in the response
     return {
       statusCode: 200,
@@ -159,7 +208,8 @@ export const handler = async function(event, context) {
         term: termKey,
         voteType,
         upvotes: votesData.terms[termKey].upvotes,
-        downvotes: votesData.terms[termKey].downvotes
+        downvotes: votesData.terms[termKey].downvotes,
+        termDeleted: deletedTerm
       })
     };
   } catch (error) {
