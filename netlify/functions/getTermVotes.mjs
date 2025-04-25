@@ -16,6 +16,8 @@ export const handler = async function(event, context) {
     };
   }
 
+  console.log('Getting votes for term:', termKey);
+
   try {
     // Get GitHub token and repo info from environment variables
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -42,10 +44,21 @@ export const handler = async function(event, context) {
       const content = Buffer.from(data.content, 'base64').toString();
       const votesData = JSON.parse(content);
       
+      // Check if terms and the specific term exist
+      if (!votesData.terms || !votesData.terms[termKey]) {
+        return {
+          statusCode: 200,
+          body: JSON.stringify({
+            termKey,
+            upvotes: 0,
+            downvotes: 0,
+            voterCount: 0
+          })
+        };
+      }
+      
       // Get vote information for the term
-      const termVotes = votesData.terms && votesData.terms[termKey] 
-        ? votesData.terms[termKey] 
-        : { upvotes: 0, downvotes: 0, voters: {} };
+      const termVotes = votesData.terms[termKey];
       
       return {
         statusCode: 200,

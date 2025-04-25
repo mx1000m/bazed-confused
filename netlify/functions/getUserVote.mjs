@@ -17,6 +17,8 @@ export const handler = async function(event, context) {
     };
   }
 
+  console.log('Getting vote for:', { termKey, username });
+
   try {
     // Get GitHub token and repo info from environment variables
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -46,8 +48,22 @@ export const handler = async function(event, context) {
       // Check if the user has voted for this term
       let voteType = null;
       
+      // Check if the term exists in the votes data
+      if (!votesData.terms || !votesData.terms[termKey]) {
+        return {
+          statusCode: 200,
+          body: JSON.stringify({
+            username,
+            termKey,
+            voteType: null,
+            upvotes: 0,
+            downvotes: 0
+          })
+        };
+      }
+      
       // Check in the term's voters list
-      if (votesData.terms && votesData.terms[termKey] && votesData.terms[termKey].voters) {
+      if (votesData.terms[termKey].voters) {
         voteType = votesData.terms[termKey].voters[username] || null;
       }
       
@@ -63,8 +79,8 @@ export const handler = async function(event, context) {
           termKey,
           voteType,
           // Include vote counts if available
-          upvotes: votesData.terms?.[termKey]?.upvotes || 0,
-          downvotes: votesData.terms?.[termKey]?.downvotes || 0
+          upvotes: votesData.terms[termKey].upvotes || 0,
+          downvotes: votesData.terms[termKey].downvotes || 0
         })
       };
     } catch (error) {

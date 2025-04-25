@@ -17,6 +17,9 @@ export const handler = async function(event, context) {
       };
     }
 
+    // Log the data we're processing
+    console.log('Processing vote:', { termKey, username, voteType });
+
     // Get GitHub token and repo info from environment variables
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
     const REPO_OWNER = process.env.REPO_OWNER;
@@ -37,7 +40,7 @@ export const handler = async function(event, context) {
     const votesFilePath = 'public/votes.json';
     
     // First, try to get the current votes file
-    let votesData = {};
+    let votesData = { terms: {}, users: {} };
     let sha = null;
     
     try {
@@ -54,6 +57,10 @@ export const handler = async function(event, context) {
       const content = Buffer.from(data.content, 'base64').toString();
       votesData = JSON.parse(content);
       console.log('Successfully fetched existing votes file');
+      
+      // Ensure the correct structure exists
+      if (!votesData.terms) votesData.terms = {};
+      if (!votesData.users) votesData.users = {};
     } catch (error) {
       // File probably doesn't exist yet, we'll create it
       console.log("Votes file not found, will create a new one:", error.message);
@@ -74,8 +81,22 @@ export const handler = async function(event, context) {
       votesData.users[username] = {};
     }
 
+    // Make sure the voters object exists
+    if (!votesData.terms[termKey].voters) {
+      votesData.terms[termKey].voters = {};
+    }
+
     // Get the user's previous vote on this term
     const previousVote = votesData.terms[termKey].voters[username];
+    
+    // Make sure the upvotes and downvotes properties exist and are numbers
+    if (typeof votesData.terms[termKey].upvotes !== 'number') {
+      votesData.terms[termKey].upvotes = 0;
+    }
+    
+    if (typeof votesData.terms[termKey].downvotes !== 'number') {
+      votesData.terms[termKey].downvotes = 0;
+    }
     
     // Remove previous vote count if exists
     if (previousVote) {
