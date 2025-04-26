@@ -148,5 +148,14 @@
       "'I saw it trending, but I’m gonna DYOR before aping in.'"
     ],
     "submitted_by": "@mx1000"
+  },
+  "fomo": {
+    "category": "crypto",
+    "definition": "Fear of Missing Out",
+    "explanation": "FOMO in crypto is \"Fear of Missing Out,\" dFOMO in crypto is driving impulsive buying due to hype or rising pricesriving impulsive buying due to hype or rising prices",
+    "examples": [
+      "Dogecoin spikes 12,000% in 2021 from Musk's tweets. A trader buys at $0.70, fearing they'll miss out, but it crashes to $0.20. That's FOMO."
+    ],
+    "submitted_by": "@taproot"
   }
 }
