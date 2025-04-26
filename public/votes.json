@@ -27,6 +27,13 @@
       "voters": {
         "taproot": "upvote"
       }
+    },
+    "Base": {
+      "upvotes": 1,
+      "downvotes": 0,
+      "voters": {
+        "cryptoconsuela": "upvote"
+      }
     }
   },
   "users": {
@@ -37,6 +44,9 @@
     },
     "taproot": {
       "fomo": "upvote"
+    },
+    "cryptoconsuela": {
+      "Base": "upvote"
     }
   }
 }
