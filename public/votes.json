@@ -41,6 +41,13 @@
       "voters": {
         "cryptoconsuela": "upvote"
       }
+    },
+    "rug pull": {
+      "upvotes": 1,
+      "downvotes": 0,
+      "voters": {
+        "cryptoconsuela": "upvote"
+      }
     }
   },
   "users": {
@@ -54,7 +61,8 @@
     },
     "cryptoconsuela": {
       "Base": "upvote",
-      "Bearish": "upvote"
+      "Bearish": "upvote",
+      "rug pull": "upvote"
     }
   }
 }
