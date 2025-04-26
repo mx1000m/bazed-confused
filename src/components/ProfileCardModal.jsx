@@ -13,11 +13,11 @@ const ProfileCardModal = ({
   
   // Messages for Farcaster cast
   const castMessages = [
-    "🔵 BAZED & CONFUSED got {score} points for teaching normies crypto slang. 🧠 www.bazedandconfused.com",
-    "🔵 Bagged {score} points just vibin' on BAZED & CONFUSED. 📚😤 Come learn crypto slang: www.bazedandconfused.com",
-    "🔵 Teaching normies got me {score} points on BAZED & CONFUSED. 😂📚 www.bazedandconfused.com",
-    "🔵 {score} points for dropping crypto slang on BAZED & CONFUSED : www.bazedandconfused.com",
-    "🔵 Dropped alpha, stacked points. BAZED & CONFUSED things. 🧠 www.bazedandconfused.com"
+    "🔵 BAZED & CONFUSED got {score} points for teaching normies crypto slang. 🧠 www.bazedandconfused.xyz",
+    "🔵 Bagged {score} points just vibin' on BAZED & CONFUSED. 📚😤 Come learn crypto slang: www.bazedandconfused.xyz",
+    "🔵 Teaching normies got me {score} points on BAZED & CONFUSED. 😂📚 www.bazedandconfused.xyz",
+    "🔵 {score} points for dropping crypto slang on BAZED & CONFUSED : www.bazedandconfused.xyz",
+    "🔵 Dropped alpha, stacked points. BAZED & CONFUSED things. 🧠 www.bazedandconfused.xyz"
   ];
 
   // Array of image paths (assuming they're in public/images folder)
