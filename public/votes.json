@@ -29,10 +29,11 @@
       }
     },
     "Base": {
-      "upvotes": 1,
+      "upvotes": 2,
       "downvotes": 0,
       "voters": {
-        "cryptoconsuela": "upvote"
+        "cryptoconsuela": "upvote",
+        "croth.eth": "upvote"
       }
     },
     "Bearish": {
@@ -63,6 +64,9 @@
       "Base": "upvote",
       "Bearish": "upvote",
       "rug pull": "upvote"
+    },
+    "croth.eth": {
+      "Base": "upvote"
     }
   }
 }
