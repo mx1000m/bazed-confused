@@ -277,7 +277,7 @@ export default function App() {
               fontWeight: '500'
             }}
           >
-            Learn how it works.
+            Learn how it works
           </span>
         </>
       );
@@ -308,7 +308,7 @@ export default function App() {
               fontWeight: '500'
             }}
           >
-            <br />Learn how it works.
+            <br />Learn how it works
           </span>
         </>
       );
