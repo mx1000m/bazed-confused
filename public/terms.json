@@ -1,101 +1,141 @@
 {
-  "Superchain": {
+  "onchain": {
+    "category": "Tech",
+    "definition": "Activities, assets, or data that exist directly on a blockchain.",
+    "explanation": "Being 'onchain' means actions are publicly verifiable, decentralized, and recorded permanently on a blockchain.",
+    "examples": [
+      "'This entire game runs onchain.'",
+      "'Buying an NFT is an onchain transaction.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "Proof of Stake": {
+    "category": "Consensus",
+    "definition": "A blockchain consensus mechanism where validators are chosen based on the amount of crypto they stake.",
+    "explanation": "Proof of Stake secures the network without needing energy-intensive mining. Validators earn rewards by staking coins and behaving honestly.",
+    "examples": [
+      "'Ethereum switched to Proof of Stake in 2022.'",
+      "'You can earn rewards by staking in a Proof of Stake network.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "airdrop farming": {
+    "category": "Strategy",
+    "definition": "Actively using apps or wallets in hopes of qualifying for free token airdrops.",
+    "explanation": "Airdrop farmers interact with projects, often across multiple wallets, aiming to maximize rewards when a new token is launched.",
+    "examples": [
+      "'People are farming airdrops on Base.'",
+      "'Using new dApps is a common airdrop farming strategy.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "hard rug pull": {
+    "category": "Scam",
+    "definition": "When developers abandon a project and steal investors' funds suddenly.",
+    "explanation": "In a hard rug pull, the creators take the money and vanish, leaving the project worthless and the investors stuck.",
+    "examples": [
+      "'That token was a hard rug pull.'",
+      "'Always research teams to avoid getting hard rugged.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "bedrock fork": {
+    "category": "Tech",
+    "definition": "A blockchain fork based on Optimism’s Bedrock architecture.",
+    "explanation": "Bedrock is Optimism’s modular Layer 2 stack. A 'Bedrock fork' means a chain built using its open-source, standardized components.",
+    "examples": [
+      "'Base is a Bedrock fork.'",
+      "'Bedrock forks use shared security principles from Ethereum.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "cold storage": {
+    "category": "Security",
+    "definition": "Storing cryptocurrency offline, disconnected from the internet.",
+    "explanation": "Cold storage methods like hardware wallets or paper wallets protect crypto from hacks by keeping private keys offline.",
+    "examples": [
+      "'I keep my ETH in cold storage for safety.'",
+      "'Cold wallets are the gold standard for security.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "Frame (Farcaster)": {
+    "category": "Social",
+    "definition": "Interactive apps built directly into Farcaster posts.",
+    "explanation": "Frames allow users to interact (mint NFTs, vote, buy, etc.) without leaving the Farcaster app, making posts action-based.",
+    "examples": [
+      "'Mint this NFT using the Frame below!'",
+      "'Frames are Farcaster’s killer feature.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "GM GM": {
+    "category": "Culture",
+    "definition": "A double 'Good Morning' greeting popular in crypto communities.",
+    "explanation": "'GM GM' shows excitement, positivity, and vibes with other crypto users — even if it's not actually morning.",
+    "examples": [
+      "'GM GM fren!'",
+      "'GM GM, let's build!'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "BM BM": {
+    "category": "Culture",
+    "definition": "A Farcaster-born spin on 'GM GM,' meaning 'Based Morning.'",
+    "explanation": "'BM BM' is used mainly on Base and Farcaster to greet frens and celebrate being based early in the day.",
+    "examples": [
+      "'BM BM Base frens!'",
+      "'Start your day with a BM BM.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "Anon": {
+    "category": "Culture",
+    "definition": "A nickname for anonymous users in crypto spaces.",
+    "explanation": "Calling someone 'anon' acknowledges that they're using a pseudonym or hiding their real-world identity, common in Web3.",
+    "examples": [
+      "'Nice mint, anon!'",
+      "'Anon knows what's up.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "Based": {
+    "category": "Culture",
+    "definition": "A compliment meaning cool, confident, or true to your beliefs — especially on Base blockchain.",
+    "explanation": "'Based' started as a meme but now often means someone is doing something awesome or authentic, especially on Base L2.",
+    "examples": [
+      "'That post was so based.'",
+      "'Based builders are changing the game.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "Base": {
     "category": "Layer 2",
-    "definition": "A shared sequencing and bridging standard across OP Stack chains.",
-    "explanation": "The Superchain connects multiple chains together using Optimism’s technology, allowing assets and messages to move seamlessly.",
+    "definition": "A Layer 2 blockchain built on the OP Stack, incubated by Coinbase.",
+    "explanation": "Base makes it easy for developers and users to access fast, cheap Ethereum transactions while staying decentralized.",
     "examples": [
-      "'Base is part of the Superchain.'",
-      "'The Superchain aims to unify Ethereum scaling solutions.'"
+      "'This NFT minted on Base for $0.01!'",
+      "'Base season is every season.'"
     ],
     "submitted_by": "@mx1000"
   },
-  "zk-rollups": {
+  "Jesse Pollak": {
+  "category": "Personas",
+  "definition": "Base Builder 01 and creator of Base, Coinbase’s Layer 2 network.",
+  "explanation": "Jesse Pollak led the creation of Base, a Layer 2 blockchain built to make Ethereum accessible to millions of new users. He’s known for championing onchain culture, scaling crypto adoption, and making Base the most welcoming L2 ecosystem.",
+  "examples": [
+    "'Jesse Pollak wants to bring millions of people onchain.'",
+    "'If Jesse’s building it, you know it’s based.'"
+  ],
+  "submitted_by": "@mx1000"
+},
+  "Layer 2": {
     "category": "Tech",
-    "definition": "A type of Layer 2 scaling solution for Ethereum.",
-    "explanation": "ZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costs.ZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costsZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costs",
+    "definition": "A secondary blockchain built on top of another to improve speed and scalability.",
+    "explanation": "Layer 2s like Base, Optimism, and Arbitrum handle transactions off the main Ethereum blockchain to reduce congestion and fees.",
     "examples": [
-      "'zkSync is a popular zk-rollup.'",
-      "'ZK-rollups offer fast and secure transactions.'"
-    ],
-    "submitted_by": "@mx1000"
-  },
-  "zk-zrellup": {
-    "category": "Tech",
-    "definition": "A type of Layer 2 scaling solution for Ethereum.",
-    "explanation": "ZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costs.",
-    "examples": [
-      "'zkSync is a popular zk-rollup.'",
-      "'ZK-rollups offer fast and secure transactions.'"
-    ],
-    "submitted_by": "@mx1000"
-  },
-  "zk-roertp": {
-    "category": "Tech",
-    "definition": "A type of Layer 2 scaling solution for Ethereum.",
-    "explanation": "ZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costs.",
-    "examples": [
-      "'zkSync is a popular zk-rollup.'",
-      "'ZK-rollups offer fast and secure transactions.'"
-    ],
-    "submitted_by": "@mx1000"
-  },
-  "zk-rtzeup": {
-    "category": "Tech",
-    "definition": "A type of Layer 2 scaling solution for Ethereum.",
-    "explanation": "ZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costs.",
-    "examples": [
-      "'zkSync is a popular zk-rollup.'",
-      "'ZK-rollups offer fast and secure transactions.'"
-    ],
-    "submitted_by": "@mx1000"
-  },
-  "zk-rolrzt": {
-    "category": "Tech",
-    "definition": "A type of Layer 2 scaling solution for Ethereum.",
-    "explanation": "ZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costs.",
-    "examples": [
-      "'zkSync is a popular zk-rollup.'",
-      "'ZK-rollups offer fast and secure transactions.'"
-    ],
-    "submitted_by": "@mx1000"
-  },
-  "zk-roztelup": {
-    "category": "Tech",
-    "definition": "A type of Layer 2 scaling solution for Ethereum.",
-    "explanation": "ZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costs.",
-    "examples": [
-      "'zkSync is a popular zk-rollup.'",
-      "'ZK-rollups offer fast and secure transactions.'"
-    ],
-    "submitted_by": "@mx1000"
-  },
-  "zk-erzup": {
-    "category": "Tech",
-    "definition": "A type of Layer 2 scaling solution for Ethereum.",
-    "explanation": "ZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costs.",
-    "examples": [
-      "'zkSync is a popular zk-rollup.'",
-      "'ZK-rollups offer fast and secure transactions.'"
-    ],
-    "submitted_by": "@mx1000"
-  },
-  "zk-rzeap": {
-    "category": "Tech",
-    "definition": "A type of Layer 2 scaling solution for Ethereum.",
-    "explanation": "ZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costs.",
-    "examples": [
-      "'zkSync is a popular zk-rollup.'",
-      "'ZK-rollups offer fast and secure transactions.'"
-    ],
-    "submitted_by": "@mx1000"
-  },
-  "zk-azap": {
-    "category": "Tech",
-    "definition": "A type of Layer 2 scaling solution for Ethereum.",
-    "explanation": "ZK-rollups bundle many transactions into one and post only the proof to Ethereum, reducing gas costs.",
-    "examples": [
-      "'zkSync is a popular zk-rollup.'",
-      "'ZK-rollups offer fast and secure transactions.'"
+      "'Base is a Layer 2 on Ethereum.'",
+      "'Layer 2s make Ethereum faster and cheaper.'"
     ],
     "submitted_by": "@mx1000"
   }
