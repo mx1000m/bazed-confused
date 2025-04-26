@@ -49,6 +49,13 @@
       "voters": {
         "cryptoconsuela": "upvote"
       }
+    },
+    "Based": {
+      "upvotes": 1,
+      "downvotes": 0,
+      "voters": {
+        "croth.eth": "upvote"
+      }
     }
   },
   "users": {
@@ -66,7 +73,8 @@
       "rug pull": "upvote"
     },
     "croth.eth": {
-      "Base": "upvote"
+      "Base": "upvote",
+      "Based": "upvote"
     }
   }
 }
