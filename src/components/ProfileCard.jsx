@@ -44,15 +44,30 @@ const ProfileCard = ({ terms }) => {
     setIsModalOpen(false);
   };
 
-  const handleCastToFarcaster = () => {
-    // URL to share
-    const shareUrl = window.location.origin;
+  const handleCastToFarcaster = (message, image) => {
+    // Use a production URL for sharing, not localhost
+    const shareUrl = "https://www.bazedandconfused.com";
     
-    // Message to share
-    const message = `Check out BAZED & CONFUSED - I've submitted ${termsSubmitted} crypto terms and earned ${score} points so far! Learn crypto slang at ${shareUrl}`;
+    // Create the Farcaster cast URL with the random message
+    // If message already contains URL, we don't need to add it
+    const castMessage = message || `Check out BAZED & CONFUSED - I've submitted ${termsSubmitted} crypto terms and earned ${score} points so far! Learn crypto slang at ${shareUrl}`;
     
-    // Create the Farcaster cast URL
-    const castUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(message)}`;
+    // Create the cast URL with the message and specify the "base" channel
+    // Use both channelId and parentUrl parameters to ensure channel selection works
+    let castUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(castMessage)}&channel=base`;
+    
+    // For local testing, we can't use local image URLs
+    // Instead, use a known public image URL for testing
+    if (image && !window.location.hostname.includes('localhost')) {
+      // For production: Use actual image from the site
+      const imageUrl = new URL(image, window.location.origin).href;
+      castUrl += `&embeds[]=${encodeURIComponent(imageUrl)}`;
+    } else {
+      // For local testing: Use a public image URL
+      // When deployed to production, replace this with your actual domain
+      const publicImageUrl = "https://bazedandconfused.com/images/BazedAndConfused-1-LR.jpg";
+      castUrl += `&embeds[]=${encodeURIComponent(publicImageUrl)}`;
+    }
     
     // Open in a new tab
     window.open(castUrl, '_blank');

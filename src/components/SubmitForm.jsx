@@ -370,15 +370,15 @@ export default function SubmitForm({ onClose, onTermSubmitted, terms }) {
 
           <h2 className="form-title">Share your knowledge!</h2>
           <p className="form-subtitle">
-            Fill the form, connect Farcaster, and contribute with a crypto term.
+          Contribute with a crypto term, connect Farcaster and collect points.
           </p>
 
           <div className="form-fields">
             <div className="form-field">
               <label>
                 Crypto term
-                {termExists && <span className="term-exists-error"> this crypto term has already been submitted</span>}
-                {bannedWordsFields.term && <span className="term-exists-error"> please avoid using inappropriate language</span>}
+                {termExists && <span className="term-exists-error"> This crypto term has already been submitted.</span>}
+                {bannedWordsFields.term && <span className="term-exists-error"> Please avoid using inappropriate language.</span>}
               </label>
               <div className="input-container">
                 <input
@@ -408,7 +408,7 @@ export default function SubmitForm({ onClose, onTermSubmitted, terms }) {
             <div className="form-field">
               <label>
                 Category
-                {bannedWordsFields.category && <span className="term-exists-error"> please avoid using inappropriate language</span>}
+                {bannedWordsFields.category && <span className="term-exists-error"> Please avoid using inappropriate language.</span>}
               </label>
               <div className="input-container">
                 <input
@@ -435,7 +435,7 @@ export default function SubmitForm({ onClose, onTermSubmitted, terms }) {
             <div className="form-field">
               <label>
                 Definition
-                {bannedWordsFields.definition && <span className="term-exists-error"> please avoid using inappropriate language</span>}
+                {bannedWordsFields.definition && <span className="term-exists-error"> Please avoid using inappropriate language.</span>}
               </label>
               <div className="input-container">
                 <input
@@ -462,7 +462,7 @@ export default function SubmitForm({ onClose, onTermSubmitted, terms }) {
             <div className="form-field">
               <label>
                 Explanation
-                {bannedWordsFields.explanation && <span className="term-exists-error"> please avoid using inappropriate language</span>}
+                {bannedWordsFields.explanation && <span className="term-exists-error"> Please avoid using inappropriate language.</span>}
               </label>
               <div className="input-container">
                 <input
@@ -489,7 +489,7 @@ export default function SubmitForm({ onClose, onTermSubmitted, terms }) {
             <div className="form-field">
               <label>
                 Examples
-                {bannedWordsFields.examples && <span className="term-exists-error"> please avoid using inappropriate language</span>}
+                {bannedWordsFields.examples && <span className="term-exists-error"> Please avoid using inappropriate language.</span>}
               </label>
               <div className="input-container">
                 <textarea

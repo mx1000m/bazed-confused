@@ -84,16 +84,16 @@
 /* === MODAL TITLE AND SUBTITLE === */
 .modal-title {
   font-weight: 700;
-  font-size: 1.3rem;
-  margin: 0 0 0.25rem 0;
+  font-size: 1.7rem;
+  margin: 1rem 0 0rem 0;
   text-align: center;
   color: #0052FF;
 }
 
 .modal-subtitle {
   font-weight: 500;
-  font-size: 0.9rem;
-  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  margin: -1rem 0 1rem 0;
   text-align: center;
   color: #666;
 }
@@ -117,7 +117,7 @@
 .username {
   font-size: 1.2rem;
   font-weight: 600;
-  margin: 0.5rem 0;
+  margin: -1rem 0.5rem 0;
 }
 
 /* === STATS CONTAINER === */
@@ -139,9 +139,20 @@
   font-weight: 600;
 }
 
+/* Score value styling - NEW */
+.score-value {
+  color: #0052FF;
+  font-weight: 600;
+}
+
+.stat-label2 {
+  margin: -0.5rem 0 0 0;
+  font-weight: 600;
+}
+
 /* === CAST BUTTON === */
 .cast-button {
-  width: 100%;
+  width: 80%;
   padding: 0.75rem 1.5rem;
   background: #0052FF;
   color: white;
@@ -153,6 +164,7 @@
   font-size: 1rem;
   font-family: 'Inter', sans-serif;
   transition: all 0.3s ease;
+  margin: 0rem 0rem 1rem 0rem;
 }
 
 .cast-button:hover {
@@ -181,7 +193,7 @@
   }
   
   .modal-title {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
   
   .modal-subtitle {
@@ -191,7 +203,7 @@
   /* Make button more prominent */
   .cast-button {
     padding: 0.75rem;
-    margin-top: 1rem;
+    margin-top: 0rem;
     font-size: 1rem;
   }
 }
@@ -225,4 +237,13 @@
     margin: 40px auto;
     padding-bottom: 2rem; /* Add extra padding at bottom for Safari toolbar */
   }
+}
+
+
+.stat-item hr {
+  width: 79%;
+  margin: 0.5rem auto;
+  border: none;
+  height: 2px;
+  background-color:#0052FF;
 }

@@ -318,7 +318,7 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
             <Button variant="secondary" onClick={handleClose}>Close</Button>
             {!showTermRemovedMessage && (
               <Button variant="primary" onClick={handleSurpriseAgain} isSurpriseMe={true}>
-                Surprise me again
+                Surprise me
               </Button>
             )}
           </div>

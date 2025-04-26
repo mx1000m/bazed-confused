@@ -107,7 +107,7 @@ const LearnMoreModal = ({ onClose }) => {
               <ul className="learn-more-list">
                 <li>
                   <span className="learn-more-icon">✍️</span>
-                  <span>Drop a term? You earn 10pts.</span>
+                  <span>Drop a term and earn 10pts.</span>
                 </li>
                 <li>
                   <span className="learn-more-icon">❌</span>
@@ -116,7 +116,7 @@ const LearnMoreModal = ({ onClose }) => {
               </ul>
               
               <p className="learn-more-tagline">
-                It's like Urban Dictionary, but onchain vibes.
+                An Urban Dictionary with onchain vibes.
               </p>
             </div>
 
