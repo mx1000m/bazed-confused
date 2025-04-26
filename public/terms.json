@@ -120,15 +120,15 @@
     "submitted_by": "@mx1000"
   },
   "Jesse Pollak": {
-  "category": "Personas",
-  "definition": "Base Builder 01 and creator of Base, Coinbase’s Layer 2 network.",
-  "explanation": "Jesse Pollak led the creation of Base, a Layer 2 blockchain built to make Ethereum accessible to millions of new users. He’s known for championing onchain culture, scaling crypto adoption, and making Base the most welcoming L2 ecosystem.",
-  "examples": [
-    "'Jesse Pollak wants to bring millions of people onchain.'",
-    "'If Jesse’s building it, you know it’s based.'"
-  ],
-  "submitted_by": "@mx1000"
-},
+    "category": "Personas",
+    "definition": "Base Builder 01 and creator of Base, Coinbase’s Layer 2 network.",
+    "explanation": "Jesse Pollak led the creation of Base, a Layer 2 blockchain built to make Ethereum accessible to millions of new users. He’s known for championing onchain culture, scaling crypto adoption, and making Base the most welcoming L2 ecosystem.",
+    "examples": [
+      "'Jesse Pollak wants to bring millions of people onchain.'",
+      "'If Jesse’s building it, you know it’s based.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
   "Layer 2": {
     "category": "Tech",
     "definition": "A secondary blockchain built on top of another to improve speed and scalability.",
@@ -136,6 +136,16 @@
     "examples": [
       "'Base is a Layer 2 on Ethereum.'",
       "'Layer 2s make Ethereum faster and cheaper.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "dyor": {
+    "category": "Culture",
+    "definition": "An acronym for 'Do Your Own Research,' encouraging individuals to investigate before making crypto decisions.",
+    "explanation": "DYOR reminds people not to blindly trust advice online and to personally verify facts, risks, and opportunities in the crypto space. It’s a core principle for staying safe and informed.",
+    "examples": [
+      "'Before investing in that token, remember to DYOR.'",
+      "'I saw it trending, but I’m gonna DYOR before aping in.'"
     ],
     "submitted_by": "@mx1000"
   }
