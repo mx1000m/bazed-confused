@@ -19,7 +19,7 @@
     ],
     "submitted_by": "@mx1000"
   },
-  "airdrop farming": {
+  "Airdrop farming": {
     "category": "Strategy",
     "definition": "Actively using apps or wallets in hopes of qualifying for free token airdrops.",
     "explanation": "Airdrop farmers interact with projects, often across multiple wallets, aiming to maximize rewards when a new token is launched.",
@@ -29,7 +29,7 @@
     ],
     "submitted_by": "@mx1000"
   },
-  "hard rug pull": {
+  "Hard rug pull": {
     "category": "Scam",
     "definition": "When developers abandon a project and steal investors' funds suddenly.",
     "explanation": "In a hard rug pull, the creators take the money and vanish, leaving the project worthless and the investors stuck.",
@@ -39,7 +39,7 @@
     ],
     "submitted_by": "@mx1000"
   },
-  "bedrock fork": {
+  "Bedrock fork": {
     "category": "Tech",
     "definition": "A blockchain fork based on Optimism’s Bedrock architecture.",
     "explanation": "Bedrock is Optimism’s modular Layer 2 stack. A 'Bedrock fork' means a chain built using its open-source, standardized components.",
@@ -49,7 +49,7 @@
     ],
     "submitted_by": "@mx1000"
   },
-  "cold storage": {
+  "Cold storage": {
     "category": "Security",
     "definition": "Storing cryptocurrency offline, disconnected from the internet.",
     "explanation": "Cold storage methods like hardware wallets or paper wallets protect crypto from hacks by keeping private keys offline.",
@@ -139,7 +139,7 @@
     ],
     "submitted_by": "@mx1000"
   },
-  "dyor": {
+  "DYOR": {
     "category": "Culture",
     "definition": "An acronym for 'Do Your Own Research,' encouraging individuals to investigate before making crypto decisions.",
     "explanation": "DYOR reminds people not to blindly trust advice online and to personally verify facts, risks, and opportunities in the crypto space. It’s a core principle for staying safe and informed.",
@@ -189,7 +189,7 @@
     ],
     "submitted_by": "@mx1000"
   },
-  "fomo": {
+  "Fomo": {
     "category": "crypto",
     "definition": "Fear of Missing Out",
     "explanation": "FOMO in crypto is \"Fear of Missing Out,\" FOMO in crypto is driving impulsive buying due to hype or rising pricesriving impulsive buying due to hype or rising prices",
@@ -198,7 +198,7 @@
     ],
     "submitted_by": "@taproot"
   },
-  "rug pull": {
+  "Rug pull": {
     "category": "Defi, Crypto, Memecoins",
     "definition": "A skem (see scam) where the devs pull all funding. Leaving the investors with peanuts. (see peanuts)",
     "explanation": "Liquidity pulling: The majority of the liquidity paired with the project's token is withdrawn, causing the price of the token to plummet to zero.    Dumping: The creators, holding a large percentage of the tokens, suddenly sell off their holdings, causing a rapid price crash.",
