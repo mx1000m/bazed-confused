@@ -46,7 +46,7 @@ const ProfileCard = ({ terms }) => {
 
   const handleCastToFarcaster = (message, image) => {
     // Use a production URL for sharing, not localhost
-    const shareUrl = "https://www.bazedandconfused.com";
+    const shareUrl = "https://www.bazedandconfused.xyz";
     
     // Create the Farcaster cast URL with the random message
     // If message already contains URL, we don't need to add it
@@ -65,7 +65,7 @@ const ProfileCard = ({ terms }) => {
     } else {
       // For local testing: Use a public image URL
       // When deployed to production, replace this with your actual domain
-      const publicImageUrl = "https://bazedandconfused.com/images/BazedAndConfused-1-LR.jpg";
+      const publicImageUrl = "https://bazedandconfused.xyz/images/BazedAndConfused-1-LR.jpg";
       castUrl += `&embeds[]=${encodeURIComponent(publicImageUrl)}`;
     }
     
