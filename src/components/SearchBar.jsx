@@ -33,9 +33,6 @@ export default function SearchBar({
     term.toLowerCase().startsWith(searchTerm.toLowerCase())
   );
 
-
-
-
   const clearSearch = () => {
     setSearchTerm('');
     if (inputRef && inputRef.current) {
@@ -43,11 +40,9 @@ export default function SearchBar({
     }
   };
 
-
-
   return (
     <div style={{ position: 'relative', width: '300px' }}>
-      <div style={{ position: 'relative' }}>  {/* Add this wrapper div */}
+      <div style={{ position: 'relative' }}>
       <input
         ref={inputRef}
         type="text"
@@ -63,6 +58,8 @@ export default function SearchBar({
           width: '100%',
           fontSize: '1rem',
           color: '#000',
+          backgroundColor: '#fff', // Explicitly set background color
+          colorScheme: 'light', // Force light mode for this element
           transition: 'transform 0.2s ease'
         }}
       />
@@ -96,25 +93,30 @@ export default function SearchBar({
       )}
     </div>
 
-
-      {searchTerm && (
-        <div style={{
-          position: 'absolute',
-          top: '100%',
-          left: 0,
-          right: 0,
-          backgroundColor: 'white',
-          color: 'black',
-          borderRadius: '12px',
-          marginTop: '0.5rem',
-          boxShadow: '0 2px 5px rgba(0,0,0,0.15)',
-          zIndex: 10,
-          overflow: 'hidden',
-          maxHeight: '10rem',
-          display: 'flex',
-          flexDirection: 'column'
-        }}>
-          <div style={{ overflowY: 'auto', maxHeight: '10rem' }}>
+    {searchTerm && (
+  <div style={{
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    right: 0,
+    backgroundColor: 'white',
+    color: 'black',
+    borderRadius: '12px',
+    marginTop: '0.5rem',
+    boxShadow: '0 2px 5px rgba(0,0,0,0.15)',
+    zIndex: 10,
+    overflow: 'hidden',
+    maxHeight: '10rem',
+    display: 'flex',
+    flexDirection: 'column',
+    colorScheme: 'light' // Add this to force light mode
+  }}>
+    <div style={{ 
+      overflowY: 'auto', 
+      maxHeight: '10rem',
+      backgroundColor: 'white',
+      colorScheme: 'light' // Add this to force light mode for scrollbar
+    }}>
             {filtered.length > 0 ? (
               filtered.map(term => (
                 <div
@@ -127,6 +129,8 @@ export default function SearchBar({
                     borderBottom: '1px solid #eee',
                     cursor: 'pointer',
                     fontWeight: 'bold',
+                    backgroundColor: 'white', // Explicitly set background color
+                    color: 'black', // Explicitly set text color
                     transition: 'background-color 0.2s ease'
                   }}
                 >
@@ -137,7 +141,8 @@ export default function SearchBar({
               <div style={{
                 padding: '0.75rem 1rem',
                 fontWeight: 'bold',
-                color: '#666'
+                color: '#666',
+                backgroundColor: 'white' // Explicitly set background color
               }}>
                 No matching terms found.
               </div>
