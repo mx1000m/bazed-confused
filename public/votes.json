@@ -13,12 +13,20 @@
       "voters": {
         "mx1000": "upvote"
       }
+    },
+    "DYOR": {
+      "upvotes": 1,
+      "downvotes": 0,
+      "voters": {
+        "mx1000": "upvote"
+      }
     }
   },
   "users": {
     "mx1000": {
       "Anon": "upvote",
-      "onchain": "upvote"
+      "onchain": "upvote",
+      "DYOR": "upvote"
     }
   }
 }
