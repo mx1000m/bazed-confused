@@ -149,48 +149,46 @@
     ],
     "submitted_by": "@mx1000"
   },
-"Bullish": {
-  "category": "Market Sentiment",
-  "definition": "Optimistic belief that an asset's price will rise.",
-  "explanation": "If someone is bullish, they believe the market or a specific asset is going up in value. It’s often used to express strong confidence in positive future performance.",
-  "examples": [
-    "'I'm bullish on ETH this year.'",
-    "'The market looks super bullish after that news.'"
-  ],
-  "submitted_by": "@mx1000"
-},
-"Bearish": {
-  "category": "Market Sentiment",
-  "definition": "Pessimistic belief that an asset's price will fall.",
-  "explanation": "Being bearish means expecting the market or a particular asset to decline. Traders who are bearish may sell, short, or avoid buying.",
-  "examples": [
-    "'I’m bearish on meme coins right now.'",
-    "'The charts are looking pretty bearish.'"
-  ],
-  "submitted_by": "@mx1000"
-},
-"Mfer": {
-  "category": "Culture",
-  "definition": "Slang term for 'motherf***er,' used affectionately in crypto circles to refer to fellow traders or degens.",
-  "explanation": "Mfer is often used in a fun, friendly way between people who are deep into crypto, NFTs, or trading. It can also reference the iconic 'mfers' NFT collection.",
-  "examples": [
-    "'This mfer just minted the whole supply.'",
-    "'Stay strong, mfer. The bull run is coming.'"
-  ],
-  "submitted_by": "@mx1000"
-},
-
-"Talent Protocol": {
-  "category": "Onchain Social App",
-  "definition": "A web3 platform where builders and creators launch talent tokens linked to their personal growth.",
-  "explanation": "Talent Protocol allows users to invest in people early by supporting their journeys through talent tokens. It’s about building a reputation economy onchain.",
-  "examples": [
-    "'I just launched my profile on Talent Protocol!'",
-    "'Talent Protocol is perfect for web3 builders growing their brand.'"
-  ],
-  "submitted_by": "@mx1000"
-},
-
+  "Bullish": {
+    "category": "Market Sentiment",
+    "definition": "Optimistic belief that an asset's price will rise.",
+    "explanation": "If someone is bullish, they believe the market or a specific asset is going up in value. It’s often used to express strong confidence in positive future performance.",
+    "examples": [
+      "'I'm bullish on ETH this year.'",
+      "'The market looks super bullish after that news.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "Bearish": {
+    "category": "Market Sentiment",
+    "definition": "Pessimistic belief that an asset's price will fall.",
+    "explanation": "Being bearish means expecting the market or a particular asset to decline. Traders who are bearish may sell, short, or avoid buying.",
+    "examples": [
+      "'I’m bearish on meme coins right now.'",
+      "'The charts are looking pretty bearish.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "Mfer": {
+    "category": "Culture",
+    "definition": "Slang term for 'motherf***er,' used affectionately in crypto circles to refer to fellow traders or degens.",
+    "explanation": "Mfer is often used in a fun, friendly way between people who are deep into crypto, NFTs, or trading. It can also reference the iconic 'mfers' NFT collection.",
+    "examples": [
+      "'This mfer just minted the whole supply.'",
+      "'Stay strong, mfer. The bull run is coming.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
+  "Talent Protocol": {
+    "category": "Onchain Social App",
+    "definition": "A web3 platform where builders and creators launch talent tokens linked to their personal growth.",
+    "explanation": "Talent Protocol allows users to invest in people early by supporting their journeys through talent tokens. It’s about building a reputation economy onchain.",
+    "examples": [
+      "'I just launched my profile on Talent Protocol!'",
+      "'Talent Protocol is perfect for web3 builders growing their brand.'"
+    ],
+    "submitted_by": "@mx1000"
+  },
   "fomo": {
     "category": "crypto",
     "definition": "Fear of Missing Out",
@@ -199,5 +197,15 @@
       "Dogecoin spikes 12,000% in 2021 from Musk's tweets. A trader buys at $0.70, fearing they'll miss out, but it crashes to $0.20. That's FOMO."
     ],
     "submitted_by": "@taproot"
+  },
+  "rug pull": {
+    "category": "Defi, Crypto, Memecoins",
+    "definition": "A skem (see scam) where the devs pull all funding. Leaving the investors with peanuts. (see peanuts)",
+    "explanation": "Liquidity pulling: The majority of the liquidity paired with the project's token is withdrawn, causing the price of the token to plummet to zero.    Dumping: The creators, holding a large percentage of the tokens, suddenly sell off their holdings, causing a rapid price crash.",
+    "examples": [
+      "Mantra (OM) Token Collapse: A significant portion (92%) of the losses in 2025 is attributed to the collapse of the Mantra (OM) token. While the founders strongly deny it was a rug pull, the token experienced a dramatic price drop, causing substantial financial damage.",
+      "Memecoin"
+    ],
+    "submitted_by": "@centurysoup"
   }
 }
