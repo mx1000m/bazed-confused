@@ -114,10 +114,16 @@ const LearnMoreModal = ({ onClose }) => {
                   <span>Post a cringe one? 15 downvotes and it's gone — and so are your points 😬</span>
                 </li>
               </ul>
-              
-              <p className="learn-more-tagline">
-                An Urban Dictionary with onchain vibes.
-              </p>
+              <hr></hr>
+
+<p className="learn-more-tagline">
+  <a href="https://zora.co/coin/base:0x2c19fe9517b1b27fb19074924e1f72d260148a3a" target="_blank" rel="noopener noreferrer">
+  💙 Support the project on Zora! 💙
+
+  </a>
+</p>
+
+
             </div>
 
           </div>
