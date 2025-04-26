@@ -20,6 +20,13 @@
       "voters": {
         "mx1000": "upvote"
       }
+    },
+    "fomo": {
+      "upvotes": 1,
+      "downvotes": 0,
+      "voters": {
+        "taproot": "upvote"
+      }
     }
   },
   "users": {
@@ -27,6 +34,9 @@
       "Anon": "upvote",
       "onchain": "upvote",
       "DYOR": "upvote"
+    },
+    "taproot": {
+      "fomo": "upvote"
     }
   }
 }
