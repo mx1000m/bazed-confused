@@ -334,3 +334,49 @@
   scrollbar-width: thin;
   scrollbar-color: #ccc #f1f1f1 !important;
 }
+
+
+
+
+
+
+/* Add your own crypto term */
+
+/* Style for the submit link section */
+.term-submit-link {
+  text-align: right; /* Change from 'center' to 'right' */
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: black;
+  padding-right: 1rem; /* Add some padding on the right side */
+}
+
+.term-submit-text {
+  text-decoration: underline;
+  color: #0038c7;
+  cursor: pointer;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.term-submit-text:hover {
+  opacity: 0.8;
+}
+
+/* Ensure the actions div has proper spacing */
+.term-actions {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .term-submit-link {
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+  }
+}
+
