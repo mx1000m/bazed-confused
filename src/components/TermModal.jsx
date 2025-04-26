@@ -3,7 +3,7 @@ import { useProfile } from '@farcaster/auth-kit';
 import Button from './Button';
 import './TermModal.css';
 
-const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
+const TermModal = ({ termData, termKey, onClose, onSurpriseAgain, onSubmitClick }) => {
   const { isAuthenticated, profile } = useProfile();
   const [fadeInOverlay, setFadeInOverlay] = useState(false);
   const [fadeInModal, setFadeInModal] = useState(false);
@@ -322,6 +322,19 @@ const TermModal = ({ termData, termKey, onClose, onSurpriseAgain }) => {
               </Button>
             )}
           </div>
+
+          {/* New "Submit a term" link */}
+          <div className="term-submit-link">
+            Want to add your own crypto term? 👉{' '}
+
+            <span 
+              onClick={onSubmitClick}
+              className="term-submit-text"
+            >
+              Submit a term
+            </span>
+          </div>
+          
         </div>
       </div>
     </div>
