@@ -1,2 +1,16 @@
-{  }
-  
+{
+  "terms": {
+    "Anon": {
+      "upvotes": 1,
+      "downvotes": 0,
+      "voters": {
+        "mx1000": "upvote"
+      }
+    }
+  },
+  "users": {
+    "mx1000": {
+      "Anon": "upvote"
+    }
+  }
+}
