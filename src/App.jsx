@@ -252,8 +252,21 @@ export default function App() {
     if (isMobile) {
       return (
         <>
-          Look up any crypto term, or hit <b>"Surprise me"</b><br />
-          to explore new ones.{' '}
+          Search any crypto term, hit <b>"Surprise me"</b><br />
+          to discover a random one, or{' '}
+          <span 
+            className="submit-link"
+            onClick={() => setIsModalOpen(true)}
+            style={{
+              color: '#fff',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              fontWeight: '500'
+            }}
+          >
+            submit
+          </span>{' '}
+          your own.{' '}
           <span 
             className="learn-more-link"
             onClick={() => setIsLearnMoreOpen(true)}
@@ -264,14 +277,27 @@ export default function App() {
               fontWeight: '500'
             }}
           >
-            Learn more
+            Learn how it works.
           </span>
         </>
       );
     } else {
       return (
         <>
-          Look up any crypto term, or hit <b>"Surprise me"</b> to explore new ones.{' '}
+          Search any crypto term, hit <b>"Surprise me"</b> to discover a random one, or{' '}
+          <span 
+            className="submit-link"
+            onClick={() => setIsModalOpen(true)}
+            style={{
+              color: '#fff',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              fontWeight: '500'
+            }}
+          >
+            submit
+          </span>{' '}
+          your own.{' '}
           <span 
             className="learn-more-link"
             onClick={() => setIsLearnMoreOpen(true)}
@@ -282,7 +308,7 @@ export default function App() {
               fontWeight: '500'
             }}
           >
-            Learn more
+            <br />Learn how it works.
           </span>
         </>
       );
