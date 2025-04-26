@@ -372,3 +372,76 @@
   border-color: #0052FF;
   box-shadow: 0 0 0 2px rgba(0, 82, 255, 0.1);
 }
+
+
+
+
+
+
+/* dark mode fix */
+
+/* Override browser color-scheme for all form elements */
+.submit-form input,
+.submit-form textarea,
+.examples-textarea {
+  color-scheme: light !important;
+  background-color: white !important;
+  color: black !important;
+}
+
+/* Force textarea to have white background in dark mode */
+.examples-textarea {
+  background-color: white !important;
+  color: black !important;
+}
+
+/* Make sure form elements stay light even in dark mode */
+.submit-form {
+  color-scheme: light !important;
+}
+
+/* Scrollbar styling for the form in light mode */
+.submit-form::-webkit-scrollbar,
+.examples-textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.submit-form::-webkit-scrollbar-thumb,
+.examples-textarea::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1 !important;
+  border-radius: 6px;
+}
+
+.submit-form::-webkit-scrollbar-track,
+.examples-textarea::-webkit-scrollbar-track {
+  background-color: #f1f1f1 !important;
+}
+
+/* Firefox scrollbar styling */
+.submit-form,
+.examples-textarea {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1 !important;
+}
+
+/* Make sure the placeholder text is visible in dark mode */
+.submit-form input::placeholder,
+.examples-textarea::placeholder {
+  color: #999 !important;
+  opacity: 1 !important;
+}
+
+/* Handle error states and ensure they stay visible in dark mode */
+.submit-form input.error,
+.examples-textarea.error {
+  border: 2px solid #e53935 !important;
+  background-color: rgba(229, 57, 53, 0.05) !important;
+}
+
+/* Ensure focus styles are consistent in dark mode */
+.submit-form input:focus, 
+.submit-form textarea:focus {
+  outline: none;
+  border-color: #0052FF !important;
+  box-shadow: 0 0 0 2px rgba(0, 82, 255, 0.1) !important;
+}
