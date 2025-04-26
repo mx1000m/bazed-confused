@@ -6,11 +6,19 @@
       "voters": {
         "mx1000": "upvote"
       }
+    },
+    "onchain": {
+      "upvotes": 1,
+      "downvotes": 0,
+      "voters": {
+        "mx1000": "upvote"
+      }
     }
   },
   "users": {
     "mx1000": {
-      "Anon": "upvote"
+      "Anon": "upvote",
+      "onchain": "upvote"
     }
   }
 }
