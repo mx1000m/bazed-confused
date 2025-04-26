@@ -36,3 +36,100 @@
     background: #f2f2f2;
   }
   
+
+  /* Add this to your CSS file to fix dark mode issues */
+
+/* Override browser color-scheme for inputs */
+input {
+  color-scheme: light !important;
+  background-color: white !important;
+  color: black !important;
+}
+
+/* For your specific search input if needed */
+input[type="text"], 
+input[placeholder="Enter crypto term"] {
+  color-scheme: light !important;
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid #e0e0e0;
+}
+
+/* For SearchBar component's specific styling */
+.search-input,
+div[style*="position: relative"] input[type="text"] {
+  color-scheme: light !important;
+  background-color: white !important;
+  color: black !important;
+}
+
+/* Ensure dropdown suggestions also have the right colors */
+.suggestions-list, 
+div[style*="backgroundColor: 'white'"] {
+  background-color: white !important;
+  color: black !important;
+}
+
+/* Add this if you want to keep the shake animation */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+
+
+
+
+/* scrollbar in dark mode */
+
+/* Webkit browsers (Chrome, Safari, newer Edge) */
+.suggestions-list div::-webkit-scrollbar,
+div[style*="overflowY: 'auto'"] {
+  width: 8px;
+}
+
+.suggestions-list div::-webkit-scrollbar-track,
+div[style*="overflowY: 'auto'"]::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.suggestions-list div::-webkit-scrollbar-thumb,
+div[style*="overflowY: 'auto'"]::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.suggestions-list div::-webkit-scrollbar-thumb:hover,
+div[style*="overflowY: 'auto'"]::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Firefox */
+.suggestions-list div,
+div[style*="overflowY: 'auto'"] {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
+/* Target the specific scrollable area in your dropdown */
+div[style*="overflowY: 'auto'"], 
+div[style*="maxHeight: '10rem'"] {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
+  color-scheme: light !important;
+}
+
+/* Make sure color-scheme is applied to any scrollable containers */
+.suggestions-list, 
+div[style*="overflowY: 'auto'"],
+div[style*="maxHeight: '10rem'"] {
+  color-scheme: light !important;
+}
