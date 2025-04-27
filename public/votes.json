@@ -78,6 +78,13 @@
       "voters": {
         "mx1000": "upvote"
       }
+    },
+    "Hard rug pull": {
+      "upvotes": 1,
+      "downvotes": 0,
+      "voters": {
+        "mx1000": "upvote"
+      }
     }
   },
   "users": {
@@ -87,7 +94,8 @@
       "DYOR": "upvote",
       "ngmi": "upvote",
       "Mfer": "upvote",
-      "Bearish": "upvote"
+      "Bearish": "upvote",
+      "Hard rug pull": "upvote"
     },
     "taproot": {
       "fomo": "upvote"
