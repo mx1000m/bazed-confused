@@ -63,13 +63,21 @@
       "voters": {
         "siman": "upvote"
       }
+    },
+    "ngmi": {
+      "upvotes": 1,
+      "downvotes": 0,
+      "voters": {
+        "mx1000": "upvote"
+      }
     }
   },
   "users": {
     "mx1000": {
       "Anon": "upvote",
       "onchain": "upvote",
-      "DYOR": "upvote"
+      "DYOR": "upvote",
+      "ngmi": "upvote"
     },
     "taproot": {
       "fomo": "upvote"
