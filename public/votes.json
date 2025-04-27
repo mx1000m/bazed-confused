@@ -56,6 +56,13 @@
       "voters": {
         "croth.eth": "upvote"
       }
+    },
+    "NGMI": {
+      "upvotes": 1,
+      "downvotes": 0,
+      "voters": {
+        "siman": "upvote"
+      }
     }
   },
   "users": {
@@ -75,6 +82,9 @@
     "croth.eth": {
       "Base": "upvote",
       "Based": "upvote"
+    },
+    "siman": {
+      "NGMI": "upvote"
     }
   }
 }
