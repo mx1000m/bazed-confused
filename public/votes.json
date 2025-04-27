@@ -70,6 +70,13 @@
       "voters": {
         "mx1000": "upvote"
       }
+    },
+    "Mfer": {
+      "upvotes": 1,
+      "downvotes": 0,
+      "voters": {
+        "mx1000": "upvote"
+      }
     }
   },
   "users": {
@@ -77,7 +84,8 @@
       "Anon": "upvote",
       "onchain": "upvote",
       "DYOR": "upvote",
-      "ngmi": "upvote"
+      "ngmi": "upvote",
+      "Mfer": "upvote"
     },
     "taproot": {
       "fomo": "upvote"
