@@ -37,10 +37,11 @@
       }
     },
     "Bearish": {
-      "upvotes": 1,
+      "upvotes": 2,
       "downvotes": 0,
       "voters": {
-        "cryptoconsuela": "upvote"
+        "cryptoconsuela": "upvote",
+        "mx1000": "upvote"
       }
     },
     "rug pull": {
@@ -85,7 +86,8 @@
       "onchain": "upvote",
       "DYOR": "upvote",
       "ngmi": "upvote",
-      "Mfer": "upvote"
+      "Mfer": "upvote",
+      "Bearish": "upvote"
     },
     "taproot": {
       "fomo": "upvote"
