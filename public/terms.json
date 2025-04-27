@@ -207,5 +207,14 @@
       "Memecoin"
     ],
     "submitted_by": "@centurysoup"
+  },
+  "ngmi": {
+    "category": "Culture",
+    "definition": "Not Gonna Make It",
+    "explanation": "When someone is not likely to succeed at something in crypto.",
+    "examples": [
+      "“You invested in one of siman’s tokens. You’re NGMI.”"
+    ],
+    "submitted_by": "@siman"
   }
 }
