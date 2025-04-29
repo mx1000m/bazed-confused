@@ -52,10 +52,11 @@
       }
     },
     "Based": {
-      "upvotes": 1,
+      "upvotes": 2,
       "downvotes": 0,
       "voters": {
-        "croth.eth": "upvote"
+        "croth.eth": "upvote",
+        "statuette": "upvote"
       }
     },
     "NGMI": {
@@ -119,6 +120,9 @@
     },
     "siman": {
       "NGMI": "upvote"
+    },
+    "statuette": {
+      "Based": "upvote"
     }
   }
 }
